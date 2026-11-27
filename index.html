@@ -31,7 +31,7 @@
       --accent-color: var(--blue-500); --accent-dark: #5f9a18; --shadow: 0 4px 28px rgba(0,0,0,0.55); --radius: 12px;
       --on-accent: #0f172a; --text-main: var(--gray-800); --text-secondary: var(--secondary-text);
       --input-bg: var(--gray-100); --input-border: var(--gray-300);
-      --lav-ok: #22c55e; --lav-uso: #3b82f6; --lav-off: #ef4444;
+      --lav-ok: #22c55e; --lav-uso: #3b82f6; --lav-tarde: #f97316; --lav-off: #ef4444;
       --sidebar-font: "DM Sans", system-ui, sans-serif; --sidebar-display: "Syne", system-ui, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -315,7 +315,8 @@
     }
     .chip b { font-size: 1.15rem; font-weight: 800; line-height: 1.1; }
     .chip span { font-size: 0.62rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.2rem; }
-    .chip.ok b { color: var(--lav-ok); } .chip.uso b { color: #60a5fa; } .chip.off b { color: #f87171; }
+    .chip.ok b { color: var(--lav-ok); } .chip.uso b { color: #60a5fa; }
+    .chip.tarde b { color: #fb923c; } .chip.off b { color: #f87171; }
     .card {
       background: var(--card-color); border-radius: var(--radius); border: 1px solid var(--border-color);
       box-shadow: var(--shadow); margin-bottom: 0.55rem; overflow: hidden;
@@ -329,7 +330,8 @@
     .card-b { padding: 0.7rem 0.75rem 0.85rem; }
     .legend { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 0.8rem; color: var(--text-secondary); }
     .legend span::before { content: ''; display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; margin-right: 0.35rem; vertical-align: -1px; }
-    .legend .l1::before { background: var(--lav-ok); } .legend .l2::before { background: var(--lav-uso); } .legend .l3::before { background: var(--lav-off); }
+    .legend .l1::before { background: var(--lav-ok); } .legend .l2::before { background: var(--lav-uso); }
+    .legend .l3::before { background: var(--lav-tarde); } .legend .l4::before { background: var(--lav-off); }
     h3.grupo {
       margin: 0.55rem 0 0.45rem; font-size: 0.78rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary);
@@ -347,6 +349,7 @@
     .eq:active { transform: scale(.97); }
     .eq:focus-visible { outline: 3px solid var(--blue-500); outline-offset: 2px; }
     .eq.en_uso { --c: var(--lav-uso); }
+    .eq.en_uso.ciclo-vencido { --c: var(--lav-tarde); }
     .eq.fuera_servicio { --c: var(--lav-off); cursor: not-allowed; }
     .eq .nom {
       width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
@@ -363,6 +366,7 @@
     .maq::after { content: ''; position: absolute; right: 0.45rem; top: 0.45rem; width: 1.3rem; height: 0.3rem; border-radius: 99px; background: #94a3b8; }
     .puerta { position: absolute; left: 50%; top: 1.35rem; width: 3.3rem; height: 3.3rem; margin-left: -1.65rem; border-radius: 50%; background: #475569; border: 0.28rem solid #94a3b8; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.85); font-size: 1rem; overflow: hidden; }
     .eq.en_uso .puerta { background: radial-gradient(circle at 35% 35%, #93c5fd, #1d4ed8); }
+    .eq.en_uso.ciclo-vencido .puerta { background: radial-gradient(circle at 35% 35%, #fdba74, #c2410c); }
     .eq.en_uso .puerta i { animation: giro 1.6s linear infinite; }
     .eq.fuera_servicio .puerta { background: #3f1d1d; color: #fca5a5; }
     @keyframes giro { to { transform: rotate(360deg); } }
@@ -373,6 +377,7 @@
     .eq .det b { color: var(--text-main); font-size: 1.05rem; }
     .eq .cta { margin-top: auto; font-size: 0.8rem; font-weight: 700; color: var(--c); min-height: 1.2em; }
     .eq.en_uso .cta { color: #93c5fd; }
+    .eq.en_uso.ciclo-vencido .cta { color: #fdba74; }
     .nota { text-align: center; color: var(--text-secondary); font-size: 0.76rem; margin: 0.65rem 0 0; }
     .estado-pantalla { text-align: center; padding: 3.5rem 1rem; color: var(--text-secondary); }
     .estado-pantalla i { font-size: 2.2rem; color: var(--blue-400); margin-bottom: 0.75rem; }
@@ -916,9 +921,10 @@
       '<p>Antes de abandonar la lavandería, asegúrese de dejar todas las luces apagadas y el espacio en buenas condiciones.</p></div>' +
       '<div class="n-block"><h3>5. Respetar los tiempos de utilización</h3>' +
       '<p>Cada residente deberá estar atento a los tiempos de lavado y secado de sus prendas. La aplicación permite visualizar el tiempo estimado de funcionamiento de cada equipo, facilitando la organización y el retiro oportuno de las prendas.</p>' +
-      '<p>Es responsabilidad de cada usuario retirar sus pertenencias una vez finalizado el ciclo, evitando retrasos y molestias para otros residentes.</p></div>' +
+      '<p>Cuando un equipo supera el tiempo estimado del ciclo, aparece en color naranja en el mapa («Tiempo vencido»). Es responsabilidad de cada usuario retirar sus pertenencias a la brevedad.</p></div>' +
       '<div class="n-block"><h3>6. Avisos y seguimiento desde conserjería</h3>' +
-      '<p>El personal de conserjería podrá realizar seguimiento a los equipos mediante la aplicación de Control de Conserjería. Cuando corresponda, podrá contactar al residente a través del citófono para informarle que su ciclo ha finalizado y solicitar el retiro de sus prendas.</p></div>' +
+      '<p>El sistema enviará un aviso al correo de la unidad unos minutos antes del fin estimado del ciclo, y otra advertencia si el tiempo ya se venció: su ropa podrá ser retirada para dar facilidad a otro residente.</p>' +
+      '<p>Además, el personal de conserjería podrá contactar al residente por citófono para solicitar el retiro de las prendas.</p></div>' +
       '<div class="n-block"><h3>7. Retiro de prendas no retiradas</h3>' +
       '<p>Si las prendas permanecen dentro de las lavadoras o secadoras una vez finalizado el tiempo de utilización, el personal de conserjería estará autorizado para retirarlas, con el propósito de permitir que otros residentes puedan utilizar los equipos.</p>' +
       '<p>Esta medida busca evitar la ocupación innecesaria de las máquinas y garantizar un uso equitativo de este espacio común.</p></div>' +
@@ -1086,7 +1092,8 @@
           codigo: codigo,
           fin: '', duracionMin: null, estado: 'en_uso', origen: 'qr', registradoPor: 'Residente ' + unidad,
           liberadoPor: '', liberadoPorNombre: '', correoEstado: 'pendiente', correoIntento: 0,
-          duracionEstimadaMin: durEst, finEstimadoAt: finEst, avisoFinAt: avisoAt, avisoFinEstado: 'pendiente'
+          duracionEstimadaMin: durEst, finEstimadoAt: finEst, avisoFinAt: avisoAt, avisoFinEstado: 'pendiente',
+          avisoRetiroEstado: 'pendiente'
         });
       });
     }).then(function () {
@@ -1157,14 +1164,24 @@
     var v = Number(st.cfg && (tipo === 'secadora' ? st.cfg.duracionSecadoraMin : st.cfg.duracionLavadoraMin));
     return v > 0 ? v : 45;
   }
+  function finCicloMs(eq) {
+    var t0 = Date.parse(eq && eq.inicio);
+    if (!isFinite(t0)) return 0;
+    return t0 + duracionMin(eq.tipo) * 60000;
+  }
+  function cicloVencido(eq) {
+    if (!eq || eq.estado !== 'en_uso') return false;
+    var fin = finCicloMs(eq);
+    return fin > 0 && Date.now() > fin;
+  }
   function tarjeta(eq) {
     var estado = ESTADO_TXT[eq.estado] ? eq.estado : 'disponible';
+    var vencido = cicloVencido(eq);
     var det, cta;
     if (estado === 'en_uso') {
-      var t0 = Date.parse(eq.inicio);
-      var fin = t0 + duracionMin(eq.tipo) * 60000;
-      det = Date.now() > fin
-        ? 'Ciclo estimado cumplido<br>Hace ' + minutos(Date.now() - t0)
+      var fin = finCicloMs(eq);
+      det = vencido
+        ? 'Tiempo vencido<br>Retire su ropa · ' + minutos(Date.now() - fin) + ' de atraso'
         : 'En uso<br>Fin aprox. ' + hora(new Date(fin).toISOString());
       cta = 'Finalizar con depto y código';
     } else if (estado === 'fuera_servicio') {
@@ -1174,9 +1191,11 @@
       det = 'Libre para usar';
       cta = 'Toque para registrar';
     }
-    var pillTxt = estado === 'fuera_servicio' ? 'Sin servicio' : ESTADO_TXT[estado];
-    return '<button type="button" class="eq ' + estado + '" data-eq="' + esc(eq.id) + '"' +
-      ' aria-label="' + esc(label(eq) + ', ' + ESTADO_TXT[estado] + (estado === 'fuera_servicio' ? ', reportar problema' : '')) + '">' +
+    var pillTxt = estado === 'fuera_servicio' ? 'Sin servicio' : (vencido ? 'Tiempo vencido' : ESTADO_TXT[estado]);
+    var cls = estado + (vencido ? ' ciclo-vencido' : '');
+    var ariaEst = vencido ? 'tiempo vencido, retire su ropa' : ESTADO_TXT[estado];
+    return '<button type="button" class="eq ' + cls + '" data-eq="' + esc(eq.id) + '"' +
+      ' aria-label="' + esc(label(eq) + ', ' + ariaEst + (estado === 'fuera_servicio' ? ', reportar problema' : '')) + '">' +
       '<span class="nom"><span>' + esc(label(eq)) + '</span><span class="pill">' + pillTxt + '</span></span>' +
       '<span class="maq"><span class="puerta"><i class="fa-solid ' + (estado === 'fuera_servicio' ? 'fa-triangle-exclamation' : TIPOS[eq.tipo].icon) + '" aria-hidden="true"></i></span></span>' +
       '<span class="det">' + det + '</span>' +
@@ -1197,8 +1216,11 @@
       presentarEntradaApp();
       return;
     }
-    var c = { disponible: 0, en_uso: 0, fuera_servicio: 0 };
-    lista.forEach(function (e) { if (c[e.estado] != null) c[e.estado]++; });
+    var c = { disponible: 0, en_uso: 0, vencido: 0, fuera_servicio: 0 };
+    lista.forEach(function (e) {
+      if (e.estado === 'en_uso' && cicloVencido(e)) c.vencido++;
+      else if (c[e.estado] != null) c[e.estado]++;
+    });
     var mapa = '';
     ['lavadora', 'secadora'].forEach(function (t) {
       mapa += '<h3 class="grupo"><i class="fa-solid ' + TIPOS[t].icon + '" aria-hidden="true"></i> ' + TIPOS[t].plural + '</h3><div class="grid">' +
@@ -1209,15 +1231,16 @@
       '<section class="resumen" aria-label="Resumen">' +
       '<div class="chip ok"><b>' + c.disponible + '</b><span>Disponibles</span></div>' +
       '<div class="chip uso"><b>' + c.en_uso + '</b><span>En uso</span></div>' +
+      '<div class="chip tarde"><b>' + c.vencido + '</b><span>Tiempo vencido</span></div>' +
       '<div class="chip off"><b>' + c.fuera_servicio + '</b><span>Fuera de servicio</span></div></section>' +
       '<button type="button" class="btn-normas" data-abrir-normas aria-label="Conoce las reglas de la lavandería">' +
       '<span class="artu-cara">' + arturitoCaraSvg() + '</span>' +
       '<span class="btn-normas-txt"><strong>Conoce las reglas de la lavandería</strong><em>Arturito te las explica</em><span>Protocolo de uso y acceso · WM815</span></span></button>' +
       '<section class="card accent-lav">' +
       '<div class="card-h"><h3><i class="fa-solid fa-soap" aria-hidden="true" style="margin-right:0.35rem;opacity:0.9"></i>Mapa de lavandería</h3>' +
-      '<div class="legend"><span class="l1">Disponible</span><span class="l2">En uso</span><span class="l3">Fuera de servicio</span></div></div>' +
+      '<div class="legend"><span class="l1">Disponible</span><span class="l2">En uso</span><span class="l3">Tiempo vencido</span><span class="l4">Fuera de servicio</span></div></div>' +
       '<div class="card-b">' + mapa +
-      '<p class="nota">Esta pantalla se actualiza sola desde la nube. Para finalizar un equipo use el departamento y el código del registro.</p>' +
+      '<p class="nota">Esta pantalla se actualiza sola desde la nube. El naranja indica ciclo vencido: retire su ropa y finalice con departamento y código.</p>' +
       '<p class="nota-accion"><button type="button" class="link-accion" data-abrir-reporte><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con un equipo</button></p>' +
       '</div></section>';
     if (primera) presentarEntradaApp();
