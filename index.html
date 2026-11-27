@@ -78,50 +78,149 @@
       filter: brightness(0) invert(1);
     }
     .page-header { margin: 0 0 0.65rem; text-align: center; }
-    /* Animación de entrada */
+    /* Animación de entrada: lavadora → Arturito → marca */
     .lav-entrada {
       position: fixed; inset: 0; z-index: 20000; display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem;
+      padding: 1.5rem; overflow: hidden;
       background:
-        radial-gradient(900px 420px at 50% 20%, color-mix(in srgb, #74bd20 22%, transparent), transparent 60%),
-        radial-gradient(700px 380px at 80% 90%, color-mix(in srgb, #38bdf8 12%, transparent), transparent 55%),
-        #121820;
+        radial-gradient(920px 520px at 50% 28%, color-mix(in srgb, #38bdf8 18%, transparent), transparent 62%),
+        radial-gradient(760px 400px at 80% 88%, color-mix(in srgb, #74bd20 16%, transparent), transparent 58%),
+        #0c1118;
     }
     .lav-entrada.is-out { animation: lavEntradaOut 0.55s ease forwards; pointer-events: none; }
-    @keyframes lavEntradaOut {
-      to { opacity: 0; transform: scale(1.03); }
+    @keyframes lavEntradaOut { to { opacity: 0; filter: blur(8px); transform: scale(1.05); } }
+    .lav-entrada-card {
+      position: relative; width: min(22rem, 90vw); text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
     }
-    .lav-entrada-card { text-align: center; max-width: 18rem; }
+    .lav-entrada-stage {
+      position: relative; width: 9.2rem; height: 9.2rem;
+      display: grid; place-items: center;
+    }
+    .lav-splash-maq {
+      position: absolute; inset: 0; margin: auto;
+      width: 6.1rem; height: 7.1rem; border-radius: 14px;
+      background: linear-gradient(165deg, #f1f5f9 0%, #cbd5e1 55%, #94a3b8 100%);
+      box-shadow:
+        inset 0 -6px 0 rgba(15, 23, 42, 0.14),
+        inset 0 1px 0 rgba(255,255,255,0.65),
+        0 22px 40px rgba(0,0,0,.42);
+      opacity: 0; transform: scale(0.78) translateY(28px);
+      animation: lavMaqIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+    }
+    .lav-splash-maq::before {
+      content: ''; position: absolute; left: 0.58rem; top: 0.52rem; width: 0.52rem; height: 0.52rem;
+      border-radius: 50%; background: #22c55e; box-shadow: 0 0 12px #22c55e;
+      animation: lavLed 0.85s ease-in-out 0.45s infinite alternate;
+    }
+    .lav-splash-maq::after {
+      content: ''; position: absolute; right: 0.55rem; top: 0.58rem; width: 1.55rem; height: 0.34rem;
+      border-radius: 99px; background: #64748b;
+    }
+    .lav-splash-door {
+      position: absolute; left: 50%; top: 1.65rem; width: 4rem; height: 4rem; margin-left: -2rem;
+      border-radius: 50%; background: #1e293b; border: 0.32rem solid #64748b; overflow: hidden;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.12);
+    }
+    .lav-splash-drum {
+      position: absolute; inset: 0.28rem; border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(186, 230, 253, 0.7), transparent 42%),
+        conic-gradient(from 40deg, #0f172a, #1d4ed8, #38bdf8, #1e3a8a, #0f172a);
+      animation: lavDrumSpin 0.95s linear 0.4s infinite;
+    }
+    .lav-splash-wave {
+      position: absolute; left: -22%; right: -22%; bottom: 14%; height: 46%;
+      background: linear-gradient(180deg, rgba(125, 211, 252, 0), rgba(56, 189, 248, 0.7));
+      border-radius: 45% 45% 0 0;
+      animation: lavWave 1s ease-in-out 0.45s infinite;
+    }
+    .lav-splash-bubbles {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    .lav-splash-bubbles i {
+      position: absolute; width: 0.38rem; height: 0.38rem; border-radius: 50%;
+      background: rgba(226, 242, 255, 0.85); opacity: 0;
+      animation: lavBubble 1.35s ease-in 0.55s infinite;
+    }
+    .lav-splash-bubbles i:nth-child(1) { left: 28%; bottom: 22%; animation-delay: 0.55s; }
+    .lav-splash-bubbles i:nth-child(2) { left: 52%; bottom: 18%; width: 0.28rem; height: 0.28rem; animation-delay: 0.85s; }
+    .lav-splash-bubbles i:nth-child(3) { left: 68%; bottom: 28%; width: 0.22rem; height: 0.22rem; animation-delay: 1.05s; }
+    @keyframes lavMaqIn {
+      0% { opacity: 0; transform: scale(0.78) translateY(28px); }
+      70% { opacity: 1; transform: scale(1.04) translateY(-4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes lavDrumSpin { to { transform: rotate(360deg); } }
+    @keyframes lavWave {
+      0%, 100% { transform: translateY(8%) rotate(-3deg); }
+      50% { transform: translateY(-10%) rotate(3deg); }
+    }
+    @keyframes lavBubble {
+      0% { opacity: 0; transform: translateY(8px) scale(0.6); }
+      25% { opacity: 0.9; }
+      100% { opacity: 0; transform: translateY(-42px) scale(1.1); }
+    }
+    @keyframes lavLed { from { opacity: 0.4; } to { opacity: 1; } }
+    .lav-entrada.is-artu .lav-splash-maq {
+      animation: lavMaqOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes lavMaqOut {
+      to { opacity: 0; transform: scale(0.62) translateY(-24px); filter: blur(5px); }
+    }
     .lav-entrada-face {
-      width: 5.2rem; height: 5.2rem; margin: 0 auto 1rem;
-      animation: lavEntradaPop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both, miniFlota 1.6s ease-in-out 0.7s infinite;
+      position: absolute; inset: 0; margin: auto; width: 6rem; height: 6rem;
+      opacity: 0; transform: scale(0.45) translateY(28px);
+      pointer-events: none; filter: drop-shadow(0 14px 22px rgba(0,0,0,0.45));
     }
-    .lav-entrada-face svg { width: 4.6rem; height: 4.6rem; }
-    @keyframes lavEntradaPop {
-      from { opacity: 0; transform: scale(0.6) translateY(12px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+    .lav-entrada-face svg { width: 5.4rem; height: 5.4rem; }
+    .lav-entrada.is-artu .lav-entrada-face {
+      animation: lavArtuIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards, miniFlota 1.7s ease-in-out 0.7s infinite;
     }
-    .lav-entrada-kicker {
-      margin: 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #9fe04a; opacity: 0; animation: lavRise 0.5s ease 0.25s forwards;
+    @keyframes lavArtuIn {
+      0% { opacity: 0; transform: scale(0.45) translateY(28px); }
+      72% { opacity: 1; transform: scale(1.08) translateY(-3px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
-    .lav-entrada-card h2 {
-      margin: 0.45rem 0 0; font-family: "Syne", system-ui, sans-serif; font-size: 1.45rem; font-weight: 800;
-      letter-spacing: -0.03em; color: #f8fafc; opacity: 0; animation: lavRise 0.55s ease 0.38s forwards;
+    .lav-entrada-copy {
+      min-height: 5.2rem; display: grid; place-items: center; gap: 0.15rem;
     }
-    .lav-entrada-card p {
-      margin: 0.4rem 0 0; font-size: 0.9rem; color: #9eb0c8; line-height: 1.4;
-      opacity: 0; animation: lavRise 0.55s ease 0.5s forwards;
+    .lav-entrada-title {
+      margin: 0; font-family: "Syne", system-ui, sans-serif;
+      font-size: clamp(2.35rem, 10vw, 3.1rem); font-weight: 800;
+      letter-spacing: -0.055em; line-height: 0.92; color: #f8fafc;
+      opacity: 0; transform: translateY(16px) scale(0.96);
+      text-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    }
+    .lav-entrada-brand {
+      margin: 0; font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.28em;
+      text-transform: uppercase; color: #9fe04a;
+      opacity: 0; transform: translateY(10px);
+    }
+    .lav-entrada.is-copy .lav-entrada-title {
+      animation: lavTitleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .lav-entrada.is-copy .lav-entrada-brand {
+      animation: lavRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
+    }
+    @keyframes lavTitleIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .lav-entrada-bar {
-      position: relative; width: min(11rem, 55vw); height: 4px; margin: 1.15rem auto 0;
+      position: relative; width: min(11rem, 54vw); height: 3px; margin-top: 0.1rem;
       border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.1);
-      opacity: 0; animation: lavRise 0.45s ease 0.62s forwards;
+      opacity: 0;
+    }
+    .lav-entrada.is-copy .lav-entrada-bar {
+      animation: lavRise 0.4s ease 0.22s forwards;
     }
     .lav-entrada-bar span {
       position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit;
-      background: linear-gradient(90deg, #9fe04a, #22d3ee);
-      animation: lavEntradaBar 1.35s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+      background: linear-gradient(90deg, #38bdf8, #9fe04a);
+    }
+    .lav-entrada.is-copy .lav-entrada-bar span {
+      animation: lavEntradaBar 1.05s cubic-bezier(0.4, 0, 0.2, 1) 0.28s forwards;
     }
     @keyframes lavEntradaBar { to { width: 100%; } }
     .page-header h1 {
@@ -453,21 +552,34 @@
       .mini-carga::before, .mini-arturito, .mini-ojo, .mini-antena, .mini-ficha, .artu-cara,
       .carga-puntos i, .modulo-carga .carga-barra span, .normas-velo, .normas-velo.is-out,
       .normas-panel, .normas-body .n-block, .lav-entrada, .lav-entrada.is-out, .lav-entrada-face,
-      .lav-entrada-kicker, .lav-entrada-card h2, .lav-entrada-card p, .lav-entrada-bar, .lav-entrada-bar span,
+      .lav-splash-maq, .lav-splash-drum, .lav-splash-wave, .lav-splash-bubbles i,
+      .lav-entrada-brand, .lav-entrada-title, .lav-entrada-bar, .lav-entrada-bar span,
       .wrap.is-ready, .lav-rise, .eq.lav-eq-in { animation: none !important; }
       .normas-body .n-block, .wrap, .lav-rise, .eq.lav-eq-in,
-      .lav-entrada-kicker, .lav-entrada-card h2, .lav-entrada-card p, .lav-entrada-bar { opacity: 1; transform: none; }
+      .lav-splash-maq, .lav-entrada-face, .lav-entrada-brand, .lav-entrada-title, .lav-entrada-bar { opacity: 1; transform: none; filter: none; }
       .lav-entrada-bar span { width: 100%; }
+      .lav-splash-bubbles i { opacity: 0; }
     }
   </style>
 </head>
 <body>
-<div class="lav-entrada" id="lavEntrada" role="status" aria-live="polite" aria-label="Cargando lavandería">
+<div class="lav-entrada" id="lavEntrada" role="status" aria-live="polite" aria-label="Lavandería WM815">
   <div class="lav-entrada-card">
-    <span class="artu-cara lav-entrada-face" id="lavEntradaFace" aria-hidden="true"></span>
-    <p class="lav-entrada-kicker">Edificio WM815</p>
-    <h2>Control de lavandería</h2>
-    <p>Arturito prepara el mapa en tiempo real…</p>
+    <div class="lav-entrada-stage" aria-hidden="true">
+      <div class="lav-splash-maq">
+        <div class="lav-splash-door">
+          <div class="lav-splash-drum">
+            <span class="lav-splash-wave"></span>
+            <span class="lav-splash-bubbles"><i></i><i></i><i></i></span>
+          </div>
+        </div>
+      </div>
+      <span class="artu-cara lav-entrada-face" id="lavEntradaFace"></span>
+    </div>
+    <div class="lav-entrada-copy">
+      <h2 class="lav-entrada-title">Lavandería</h2>
+      <p class="lav-entrada-brand">WM815</p>
+    </div>
     <div class="lav-entrada-bar" aria-hidden="true"><span></span></div>
   </div>
 </div>
@@ -659,19 +771,21 @@
   function presentarEntradaApp() {
     if (st.entradaHecha || st.entradaEnCurso) return;
     st.entradaEnCurso = true;
-    var minMs = preferReducedMotion() ? 0 : 1650;
-    var started = Date.now();
-    function finish() {
-      var wait = Math.max(0, minMs - (Date.now() - started));
-      setTimeout(function () {
-        cerrarEntradaApp(function () {
-          st.entradaHecha = true;
-          st.entradaEnCurso = false;
-          animarContenidoEntrada();
-        });
-      }, wait);
+    var entrada = $('lavEntrada');
+    var reduced = preferReducedMotion();
+    if (entrada && !reduced) {
+      setTimeout(function () { entrada.classList.add('is-artu'); }, 1100);
+      setTimeout(function () { entrada.classList.add('is-copy'); }, 1680);
+    } else if (entrada) {
+      entrada.classList.add('is-artu', 'is-copy');
     }
-    finish();
+    setTimeout(function () {
+      cerrarEntradaApp(function () {
+        st.entradaHecha = true;
+        st.entradaEnCurso = false;
+        animarContenidoEntrada();
+      });
+    }, reduced ? 0 : 2900);
   }
   function arturitoHtml(titulo, sub, detalle) {
     return '<div class="mini-carga" aria-hidden="true">' +
