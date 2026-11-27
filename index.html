@@ -83,144 +83,222 @@
       position: fixed; inset: 0; z-index: 20000; display: flex; align-items: center; justify-content: center;
       padding: 1.5rem; overflow: hidden;
       background:
-        radial-gradient(920px 520px at 50% 28%, color-mix(in srgb, #38bdf8 18%, transparent), transparent 62%),
-        radial-gradient(760px 400px at 80% 88%, color-mix(in srgb, #74bd20 16%, transparent), transparent 58%),
+        radial-gradient(880px 460px at 50% 30%, color-mix(in srgb, #38bdf8 14%, transparent), transparent 60%),
+        radial-gradient(700px 380px at 78% 90%, color-mix(in srgb, #74bd20 12%, transparent), transparent 55%),
         #0c1118;
     }
     .lav-entrada.is-out { animation: lavEntradaOut 0.55s ease forwards; pointer-events: none; }
-    @keyframes lavEntradaOut { to { opacity: 0; filter: blur(8px); transform: scale(1.05); } }
+    @keyframes lavEntradaOut { to { opacity: 0; filter: blur(8px); transform: scale(1.04); } }
     .lav-entrada-card {
       position: relative; width: min(22rem, 90vw); text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.15rem;
     }
     .lav-entrada-stage {
-      position: relative; width: 9.2rem; height: 9.2rem;
+      position: relative; width: 9.5rem; height: 9.5rem;
       display: grid; place-items: center;
     }
-    .lav-splash-maq {
+    .lav-splash-actor {
       position: absolute; inset: 0; margin: auto;
-      width: 6.1rem; height: 7.1rem; border-radius: 14px;
-      background: linear-gradient(165deg, #f1f5f9 0%, #cbd5e1 55%, #94a3b8 100%);
+      width: 6.4rem; height: 7.2rem;
+      display: grid; place-items: center;
+      opacity: 0; pointer-events: none;
+      transform: scale(0.78) translateY(26px);
+    }
+    .lav-splash-maq {
+      animation: lavMaqIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+    }
+    .lav-maq-body {
+      position: relative; width: 6.2rem; height: 7rem; border-radius: 1rem;
+      background:
+        linear-gradient(180deg, #f8fafc 0%, #e2e8f0 38%, #cbd5e1 72%, #94a3b8 100%);
       box-shadow:
-        inset 0 -6px 0 rgba(15, 23, 42, 0.14),
-        inset 0 1px 0 rgba(255,255,255,0.65),
-        0 22px 40px rgba(0,0,0,.42);
-      opacity: 0; transform: scale(0.78) translateY(28px);
-      animation: lavMaqIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+        inset 0 1px 0 rgba(255,255,255,0.75),
+        inset 0 -7px 0 rgba(15, 23, 42, 0.12),
+        0 20px 38px rgba(0,0,0,0.4);
+      animation: lavMaqShake 0.5s ease-in-out 0.9s 3;
+      transform-origin: 50% 85%;
     }
-    .lav-splash-maq::before {
-      content: ''; position: absolute; left: 0.58rem; top: 0.52rem; width: 0.52rem; height: 0.52rem;
-      border-radius: 50%; background: #22c55e; box-shadow: 0 0 12px #22c55e;
-      animation: lavLed 0.85s ease-in-out 0.45s infinite alternate;
+    .lav-maq-top {
+      position: absolute; left: 0.45rem; right: 0.45rem; top: 0.42rem; height: 0.95rem;
+      border-radius: 0.45rem; background: linear-gradient(180deg, #334155, #1e293b);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
     }
-    .lav-splash-maq::after {
-      content: ''; position: absolute; right: 0.55rem; top: 0.58rem; width: 1.55rem; height: 0.34rem;
-      border-radius: 99px; background: #64748b;
+    .lav-maq-led {
+      position: absolute; left: 0.55rem; top: 0.28rem; width: 0.38rem; height: 0.38rem;
+      border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e;
+      animation: lavLed 0.7s ease-in-out 0.5s infinite alternate;
+    }
+    .lav-maq-knob {
+      position: absolute; right: 0.55rem; top: 0.22rem; width: 0.5rem; height: 0.5rem;
+      border-radius: 50%; background: radial-gradient(circle at 35% 30%, #cbd5e1, #64748b);
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.25);
+    }
+    .lav-maq-display {
+      position: absolute; left: 50%; top: 0.28rem; width: 1.55rem; height: 0.4rem; margin-left: -0.78rem;
+      border-radius: 0.2rem; background: #0ea5e9; opacity: 0.85;
+      box-shadow: 0 0 8px rgba(14, 165, 233, 0.55);
     }
     .lav-splash-door {
-      position: absolute; left: 50%; top: 1.65rem; width: 4rem; height: 4rem; margin-left: -2rem;
-      border-radius: 50%; background: #1e293b; border: 0.32rem solid #64748b; overflow: hidden;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.12);
+      position: absolute; left: 50%; top: 1.7rem; width: 4.15rem; height: 4.15rem; margin-left: -2.075rem;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 28%, #475569, #1e293b 58%, #0f172a 100%);
+      border: 0.28rem solid #64748b;
+      box-shadow:
+        inset 0 0 0 0.18rem rgba(255,255,255,0.16),
+        0 4px 10px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .lav-splash-door::after {
+      content: ''; position: absolute; inset: 0.22rem; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 42%, transparent 58%, rgba(255,255,255,0.08));
+      pointer-events: none; z-index: 3;
     }
     .lav-splash-drum {
-      position: absolute; inset: 0.28rem; border-radius: 50%;
+      position: absolute; inset: 0.35rem; border-radius: 50%; overflow: hidden;
       background:
-        radial-gradient(circle at 32% 28%, rgba(186, 230, 253, 0.7), transparent 42%),
-        conic-gradient(from 40deg, #0f172a, #1d4ed8, #38bdf8, #1e3a8a, #0f172a);
-      animation: lavDrumSpin 0.95s linear 0.4s infinite;
+        radial-gradient(circle at 50% 50%, #1e3a5f 0%, #0b1220 70%),
+        repeating-radial-gradient(circle at 50% 50%, transparent 0 0.28rem, rgba(148,163,184,0.18) 0.28rem 0.34rem);
+      animation: lavDrumSpin 1.05s linear 0.45s infinite;
+      transform-origin: 50% 50%;
+    }
+    .lav-splash-drum::before {
+      content: ''; position: absolute; inset: 12%; border-radius: 50%;
+      border: 1px dashed rgba(148, 163, 184, 0.35);
     }
     .lav-splash-wave {
-      position: absolute; left: -22%; right: -22%; bottom: 14%; height: 46%;
-      background: linear-gradient(180deg, rgba(125, 211, 252, 0), rgba(56, 189, 248, 0.7));
-      border-radius: 45% 45% 0 0;
-      animation: lavWave 1s ease-in-out 0.45s infinite;
+      position: absolute; left: -25%; right: -25%; bottom: 8%; height: 52%;
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0), rgba(14, 165, 233, 0.72));
+      border-radius: 48% 48% 0 0;
+      animation: lavWave 0.95s ease-in-out 0.5s infinite;
+      z-index: 1;
     }
+    .lav-splash-shirt-in {
+      position: absolute; left: 50%; top: 50%; width: 1.7rem; height: 1.7rem;
+      margin: -0.85rem 0 0 -0.85rem; z-index: 2;
+      animation: lavShirtTumble 1.05s linear 0.45s infinite;
+      transform-origin: 50% 50%;
+    }
+    .lav-splash-shirt-in svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35)); }
     .lav-splash-bubbles {
-      position: absolute; inset: 0; pointer-events: none;
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
     }
     .lav-splash-bubbles i {
-      position: absolute; width: 0.38rem; height: 0.38rem; border-radius: 50%;
-      background: rgba(226, 242, 255, 0.85); opacity: 0;
-      animation: lavBubble 1.35s ease-in 0.55s infinite;
+      position: absolute; width: 0.34rem; height: 0.34rem; border-radius: 50%;
+      background: rgba(226, 242, 255, 0.9); opacity: 0;
+      animation: lavBubble 1.25s ease-in 0.6s infinite;
     }
-    .lav-splash-bubbles i:nth-child(1) { left: 28%; bottom: 22%; animation-delay: 0.55s; }
-    .lav-splash-bubbles i:nth-child(2) { left: 52%; bottom: 18%; width: 0.28rem; height: 0.28rem; animation-delay: 0.85s; }
-    .lav-splash-bubbles i:nth-child(3) { left: 68%; bottom: 28%; width: 0.22rem; height: 0.22rem; animation-delay: 1.05s; }
+    .lav-splash-bubbles i:nth-child(1) { left: 26%; bottom: 24%; }
+    .lav-splash-bubbles i:nth-child(2) { left: 48%; bottom: 16%; width: 0.26rem; height: 0.26rem; animation-delay: 0.9s; }
+    .lav-splash-bubbles i:nth-child(3) { left: 66%; bottom: 30%; width: 0.2rem; height: 0.2rem; animation-delay: 1.1s; }
+    .lav-maq-feet {
+      position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.28rem; height: 0.28rem;
+      display: flex; justify-content: space-between;
+    }
+    .lav-maq-feet i {
+      width: 0.55rem; height: 0.28rem; border-radius: 0.15rem; background: #475569;
+    }
     @keyframes lavMaqIn {
-      0% { opacity: 0; transform: scale(0.78) translateY(28px); }
-      70% { opacity: 1; transform: scale(1.04) translateY(-4px); }
+      0% { opacity: 0; transform: scale(0.78) translateY(26px); }
+      68% { opacity: 1; transform: scale(1.03) translateY(-3px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes lavMaqShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      20% { transform: translate(-1.5px, 1px) rotate(-0.6deg); }
+      40% { transform: translate(1.5px, -1px) rotate(0.6deg); }
+      60% { transform: translate(-1px, 0.5px) rotate(-0.35deg); }
+      80% { transform: translate(1px, -0.5px) rotate(0.35deg); }
     }
     @keyframes lavDrumSpin { to { transform: rotate(360deg); } }
+    @keyframes lavShirtTumble {
+      0% { transform: rotate(0deg) translate(0, 0) scale(0.95); }
+      25% { transform: rotate(90deg) translate(0.35rem, -0.15rem) scale(1); }
+      50% { transform: rotate(180deg) translate(0, 0.25rem) scale(0.92); }
+      75% { transform: rotate(270deg) translate(-0.3rem, -0.1rem) scale(1); }
+      100% { transform: rotate(360deg) translate(0, 0) scale(0.95); }
+    }
     @keyframes lavWave {
-      0%, 100% { transform: translateY(8%) rotate(-3deg); }
-      50% { transform: translateY(-10%) rotate(3deg); }
+      0%, 100% { transform: translateY(10%) rotate(-4deg); }
+      50% { transform: translateY(-12%) rotate(4deg); }
     }
     @keyframes lavBubble {
-      0% { opacity: 0; transform: translateY(8px) scale(0.6); }
-      25% { opacity: 0.9; }
-      100% { opacity: 0; transform: translateY(-42px) scale(1.1); }
+      0% { opacity: 0; transform: translateY(6px) scale(0.55); }
+      20% { opacity: 0.95; }
+      100% { opacity: 0; transform: translateY(-40px) scale(1.15); }
     }
-    @keyframes lavLed { from { opacity: 0.4; } to { opacity: 1; } }
-    .lav-entrada.is-artu .lav-splash-maq {
-      animation: lavMaqOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    @keyframes lavLed { from { opacity: 0.35; } to { opacity: 1; } }
+    .lav-entrada.is-shirt .lav-splash-maq {
+      animation: lavActorOut 0.48s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
-    @keyframes lavMaqOut {
-      to { opacity: 0; transform: scale(0.62) translateY(-24px); filter: blur(5px); }
+    .lav-splash-shirt {
+      width: 6.2rem; height: 7rem;
+    }
+    .lav-splash-shirt svg {
+      width: 5.4rem; height: 5.4rem; display: block;
+      filter: drop-shadow(0 16px 22px rgba(0,0,0,0.4));
+    }
+    .lav-entrada.is-shirt .lav-splash-shirt {
+      animation: lavActorIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                 lavShirtFloat 1.2s ease-in-out 0.62s infinite;
+    }
+    .lav-entrada.is-artu .lav-splash-shirt {
+      animation: lavActorOut 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     .lav-entrada-face {
-      position: absolute; inset: 0; margin: auto; width: 6rem; height: 6rem;
-      opacity: 0; transform: scale(0.45) translateY(28px);
-      pointer-events: none; filter: drop-shadow(0 14px 22px rgba(0,0,0,0.45));
+      width: 6.2rem; height: 7rem;
+      filter: drop-shadow(0 16px 22px rgba(0,0,0,0.42));
     }
-    .lav-entrada-face svg { width: 5.4rem; height: 5.4rem; }
+    .lav-entrada-face svg { width: 5.6rem; height: 5.6rem; display: block; }
     .lav-entrada.is-artu .lav-entrada-face {
-      animation: lavArtuIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards, miniFlota 1.7s ease-in-out 0.7s infinite;
+      animation: lavActorIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                 miniFlota 1.7s ease-in-out 0.65s infinite;
     }
-    @keyframes lavArtuIn {
-      0% { opacity: 0; transform: scale(0.45) translateY(28px); }
-      72% { opacity: 1; transform: scale(1.08) translateY(-3px); }
+    @keyframes lavActorIn {
+      0% { opacity: 0; transform: scale(0.72) translateY(24px); }
+      70% { opacity: 1; transform: scale(1.05) translateY(-3px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
+    @keyframes lavActorOut {
+      to { opacity: 0; transform: scale(0.7) translateY(-22px); filter: blur(4px); }
+    }
+    @keyframes lavShirtFloat {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-7px) rotate(4deg); }
+    }
     .lav-entrada-copy {
-      min-height: 5.2rem; display: grid; place-items: center; gap: 0.15rem;
+      min-height: 4.8rem; display: grid; place-items: center; gap: 0.35rem;
     }
     .lav-entrada-title {
       margin: 0; font-family: "Syne", system-ui, sans-serif;
-      font-size: clamp(2.35rem, 10vw, 3.1rem); font-weight: 800;
-      letter-spacing: -0.055em; line-height: 0.92; color: #f8fafc;
-      opacity: 0; transform: translateY(16px) scale(0.96);
-      text-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      font-size: clamp(1.85rem, 7.2vw, 2.35rem); font-weight: 700;
+      letter-spacing: -0.01em; line-height: 1.15; color: #f1f5f9;
+      opacity: 0; transform: translateY(14px);
     }
     .lav-entrada-brand {
       margin: 0; font-family: "DM Sans", system-ui, sans-serif;
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.28em;
-      text-transform: uppercase; color: #9fe04a;
-      opacity: 0; transform: translateY(10px);
+      font-size: 0.92rem; font-weight: 600; letter-spacing: 0.04em;
+      color: #9fe04a; opacity: 0; transform: translateY(10px);
     }
     .lav-entrada.is-copy .lav-entrada-title {
-      animation: lavTitleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: lavRise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
     .lav-entrada.is-copy .lav-entrada-brand {
-      animation: lavRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
-    }
-    @keyframes lavTitleIn {
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      animation: lavRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
     }
     .lav-entrada-bar {
-      position: relative; width: min(11rem, 54vw); height: 3px; margin-top: 0.1rem;
+      position: relative; width: min(10.5rem, 52vw); height: 3px; margin-top: 0.05rem;
       border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.1);
       opacity: 0;
     }
     .lav-entrada.is-copy .lav-entrada-bar {
-      animation: lavRise 0.4s ease 0.22s forwards;
+      animation: lavRise 0.4s ease 0.18s forwards;
     }
     .lav-entrada-bar span {
       position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit;
       background: linear-gradient(90deg, #38bdf8, #9fe04a);
     }
     .lav-entrada.is-copy .lav-entrada-bar span {
-      animation: lavEntradaBar 1.05s cubic-bezier(0.4, 0, 0.2, 1) 0.28s forwards;
+      animation: lavEntradaBar 1s cubic-bezier(0.4, 0, 0.2, 1) 0.22s forwards;
     }
     @keyframes lavEntradaBar { to { width: 100%; } }
     .page-header h1 {
@@ -252,17 +330,6 @@
     .legend { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 0.8rem; color: var(--text-secondary); }
     .legend span::before { content: ''; display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; margin-right: 0.35rem; vertical-align: -1px; }
     .legend .l1::before { background: var(--lav-ok); } .legend .l2::before { background: var(--lav-uso); } .legend .l3::before { background: var(--lav-off); }
-    .mios {
-      background: color-mix(in srgb, var(--lav-uso) 12%, var(--card-color));
-      border: 1px solid color-mix(in srgb, var(--lav-uso) 50%, transparent);
-      border-radius: var(--radius); padding: 0.65rem 0.75rem; margin-bottom: 0.55rem; display: none;
-    }
-    .mios h2 { margin: 0 0 0.4rem; font-size: 0.92rem; color: var(--blue-400); }
-    .mios-row {
-      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-      padding: 0.4rem 0; border-top: 1px solid rgba(255,255,255,.08); font-size: 0.9rem;
-    }
-    .mios-row:first-of-type { border-top: 0; }
     h3.grupo {
       margin: 0.55rem 0 0.45rem; font-size: 0.78rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary);
@@ -306,7 +373,6 @@
     .eq .det b { color: var(--text-main); font-size: 1.05rem; }
     .eq .cta { margin-top: auto; font-size: 0.8rem; font-weight: 700; color: var(--c); min-height: 1.2em; }
     .eq.en_uso .cta { color: #93c5fd; }
-    .eq .mio { position: absolute; top: 0.45rem; right: 0.45rem; font-size: 0.62rem; font-weight: 800; background: var(--blue-500); color: var(--on-accent); padding: 0.12rem 0.4rem; border-radius: 6px; }
     .nota { text-align: center; color: var(--text-secondary); font-size: 0.76rem; margin: 0.65rem 0 0; }
     .estado-pantalla { text-align: center; padding: 3.5rem 1rem; color: var(--text-secondary); }
     .estado-pantalla i { font-size: 2.2rem; color: var(--blue-400); margin-bottom: 0.75rem; }
@@ -552,11 +618,14 @@
       .mini-carga::before, .mini-arturito, .mini-ojo, .mini-antena, .mini-ficha, .artu-cara,
       .carga-puntos i, .modulo-carga .carga-barra span, .normas-velo, .normas-velo.is-out,
       .normas-panel, .normas-body .n-block, .lav-entrada, .lav-entrada.is-out, .lav-entrada-face,
-      .lav-splash-maq, .lav-splash-drum, .lav-splash-wave, .lav-splash-bubbles i,
+      .lav-splash-actor, .lav-splash-maq, .lav-splash-shirt, .lav-splash-drum, .lav-splash-wave,
+      .lav-splash-shirt-in, .lav-splash-bubbles i, .lav-maq-led,
       .lav-entrada-brand, .lav-entrada-title, .lav-entrada-bar, .lav-entrada-bar span,
       .wrap.is-ready, .lav-rise, .eq.lav-eq-in { animation: none !important; }
       .normas-body .n-block, .wrap, .lav-rise, .eq.lav-eq-in,
-      .lav-splash-maq, .lav-entrada-face, .lav-entrada-brand, .lav-entrada-title, .lav-entrada-bar { opacity: 1; transform: none; filter: none; }
+      .lav-entrada.is-artu .lav-entrada-face,
+      .lav-entrada-brand, .lav-entrada-title, .lav-entrada-bar { opacity: 1; transform: none; filter: none; }
+      .lav-splash-maq, .lav-splash-shirt { opacity: 0; }
       .lav-entrada-bar span { width: 100%; }
       .lav-splash-bubbles i { opacity: 0; }
     }
@@ -566,15 +635,25 @@
 <div class="lav-entrada" id="lavEntrada" role="status" aria-live="polite" aria-label="Lavandería WM815">
   <div class="lav-entrada-card">
     <div class="lav-entrada-stage" aria-hidden="true">
-      <div class="lav-splash-maq">
-        <div class="lav-splash-door">
-          <div class="lav-splash-drum">
-            <span class="lav-splash-wave"></span>
-            <span class="lav-splash-bubbles"><i></i><i></i><i></i></span>
+      <div class="lav-splash-actor lav-splash-maq">
+        <div class="lav-maq-body">
+          <div class="lav-maq-top">
+            <span class="lav-maq-led"></span>
+            <span class="lav-maq-display"></span>
+            <span class="lav-maq-knob"></span>
           </div>
+          <div class="lav-splash-door">
+            <div class="lav-splash-drum">
+              <span class="lav-splash-shirt-in" id="lavEntradaShirtMini"></span>
+              <span class="lav-splash-wave"></span>
+              <span class="lav-splash-bubbles"><i></i><i></i><i></i></span>
+            </div>
+          </div>
+          <span class="lav-maq-feet"><i></i><i></i></span>
         </div>
       </div>
-      <span class="artu-cara lav-entrada-face" id="lavEntradaFace"></span>
+      <div class="lav-splash-actor lav-splash-shirt" id="lavEntradaShirt"></div>
+      <span class="artu-cara lav-splash-actor lav-entrada-face" id="lavEntradaFace"></span>
     </div>
     <div class="lav-entrada-copy">
       <h2 class="lav-entrada-title">Lavandería</h2>
@@ -622,9 +701,6 @@
   var COL_EQ = 'pcsh_lavanderia_equipos';
   var COL_USOS = 'pcsh_lavanderia_usos';
   var COL_REP = 'pcsh_lavanderia_reportes';
-  var LS_MIOS = 'pcsh_lav_mis_usos_v1';
-  var LS_INTENTOS = 'pcsh_lav_intentos_v1';
-  var LS_REPORTES = 'pcsh_lav_reportes_v1';
   var MOTIVOS_REPORTE = [
     'No enciende / no parte',
     'No completa el ciclo',
@@ -641,7 +717,17 @@
   var ESTADO_TXT = { disponible: 'Disponible', en_uso: 'En uso', fuera_servicio: 'Fuera de servicio' };
 
   var token = new URLSearchParams(location.search).get('k') || '';
-  var st = { cfg: null, equipos: {}, cargado: { cfg: false, eq: false }, entradaHecha: false, entradaEnCurso: false };
+  var st = {
+    cfg: null, equipos: {}, cargado: { cfg: false, eq: false },
+    entradaHecha: false, entradaEnCurso: false,
+    intentosLib: { n: 0, hasta: 0 },
+    reportesAt: []
+  };
+  try {
+    ['pcsh_lav_mis_usos_v1', 'pcsh_lav_intentos_v1', 'pcsh_lav_reportes_v1'].forEach(function (k) {
+      localStorage.removeItem(k);
+    });
+  } catch (e) {}
 
   var app = firebase.initializeApp(FIREBASE);
   var db = firebase.firestore(app);
@@ -720,9 +806,20 @@
       '<path d="M26 39 Q32 44 38 39" stroke="#7FBA02" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
       '</svg>';
   }
+  function camisetaSvg() {
+    return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<path d="M20 14 L10 22 L16 30 L22 26 V50 H42 V26 L48 30 L54 22 L44 14 C40 18 36 20 32 20 C28 20 24 18 20 14 Z" fill="#38bdf8"/>' +
+      '<path d="M20 14 C24 18 28 20 32 20 C36 20 40 18 44 14" fill="none" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>' +
+      '<path d="M26 28 H38" stroke="#7dd3fc" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/>' +
+      '</svg>';
+  }
   (function prepararEntradaVisual() {
     var face = $('lavEntradaFace');
+    var shirt = $('lavEntradaShirt');
+    var shirtMini = $('lavEntradaShirtMini');
     if (face) face.innerHTML = arturitoCaraSvg();
+    if (shirt) shirt.innerHTML = camisetaSvg();
+    if (shirtMini) shirtMini.innerHTML = camisetaSvg();
   })();
   function preferReducedMotion() {
     try { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) { return false; }
@@ -774,10 +871,11 @@
     var entrada = $('lavEntrada');
     var reduced = preferReducedMotion();
     if (entrada && !reduced) {
-      setTimeout(function () { entrada.classList.add('is-artu'); }, 1100);
-      setTimeout(function () { entrada.classList.add('is-copy'); }, 1680);
+      setTimeout(function () { entrada.classList.add('is-shirt'); }, 1250);
+      setTimeout(function () { entrada.classList.add('is-artu'); }, 2200);
+      setTimeout(function () { entrada.classList.add('is-copy'); }, 2750);
     } else if (entrada) {
-      entrada.classList.add('is-artu', 'is-copy');
+      entrada.classList.add('is-shirt', 'is-artu', 'is-copy');
     }
     setTimeout(function () {
       cerrarEntradaApp(function () {
@@ -785,7 +883,7 @@
         st.entradaEnCurso = false;
         animarContenidoEntrada();
       });
-    }, reduced ? 0 : 2900);
+    }, reduced ? 0 : 3900);
   }
   function arturitoHtml(titulo, sub, detalle) {
     return '<div class="mini-carga" aria-hidden="true">' +
@@ -912,32 +1010,27 @@
     return /máximo|maximo|ya tiene .* en uso/i.test(String(e.message || ''));
   }
 
-  /* ---------- Registros propios de este dispositivo ---------- */
-  function misUsos() {
-    try { var v = JSON.parse(localStorage.getItem(LS_MIOS) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; }
-  }
-  function guardarMio(eqId, dato) {
-    var m = misUsos();
-    if (dato) m[eqId] = dato; else delete m[eqId];
-    try { localStorage.setItem(LS_MIOS, JSON.stringify(m)); } catch (e) {}
-  }
-  function mioVigente(eq) {
-    var m = misUsos()[eq.id];
-    return m && eq.estado === 'en_uso' && m.usoId === eq.usoId ? m : null;
-  }
+  /* ---------- Límites solo en memoria de sesión (sin localStorage) ---------- */
   function bloqueoIntentos() {
-    try {
-      var v = JSON.parse(localStorage.getItem(LS_INTENTOS) || '{}');
-      if (v.hasta && Date.now() < v.hasta) return Math.ceil((v.hasta - Date.now()) / 1000);
-    } catch (e) {}
+    var v = st.intentosLib || { n: 0, hasta: 0 };
+    if (v.hasta && Date.now() < v.hasta) return Math.ceil((v.hasta - Date.now()) / 1000);
     return 0;
   }
   function sumarIntentoFallido() {
-    var v = {};
-    try { v = JSON.parse(localStorage.getItem(LS_INTENTOS) || '{}'); } catch (e) {}
+    var v = st.intentosLib || { n: 0, hasta: 0 };
     v.n = (v.n || 0) + 1;
     if (v.n >= 5) { v.hasta = Date.now() + 60000; v.n = 0; }
-    try { localStorage.setItem(LS_INTENTOS, JSON.stringify(v)); } catch (e) {}
+    st.intentosLib = v;
+  }
+  function reportesRecientes() {
+    var ahora = Date.now();
+    st.reportesAt = (st.reportesAt || []).filter(function (t) { return ahora - t < 3600000; });
+    return st.reportesAt;
+  }
+  function registrarReporteSesion() {
+    var arr = reportesRecientes();
+    arr.push(Date.now());
+    st.reportesAt = arr.slice(-8);
   }
 
   /* ---------- Validaciones ---------- */
@@ -997,7 +1090,6 @@
         });
       });
     }).then(function () {
-      guardarMio(eqId, { usoId: usoId, unidad: unidad, codigo: codigo, inicio: inicio });
       return { usoId: usoId, codigo: codigo };
     });
   }
@@ -1026,20 +1118,9 @@
           liberadoPor: 'residente', liberadoPorNombre: 'Residente ' + eq.unidad
         }, { merge: true });
       });
-    }).then(function () { guardarMio(eqId, null); });
+    });
   }
 
-  function reportesRecientes() {
-    try {
-      var v = JSON.parse(localStorage.getItem(LS_REPORTES) || '[]');
-      return Array.isArray(v) ? v.filter(function (t) { return Date.now() - t < 3600000; }) : [];
-    } catch (e) { return []; }
-  }
-  function registrarReporteLocal() {
-    var arr = reportesRecientes();
-    arr.push(Date.now());
-    try { localStorage.setItem(LS_REPORTES, JSON.stringify(arr.slice(-8))); } catch (e) {}
-  }
   function enviarReporte(eq, unidad, motivo, detalle) {
     var id = 'lavrep_' + Date.now() + '_' + aleatorio(6, 'abcdefghijkmnpqrstuvwxyz23456789');
     var cfgRef = db.collection(COL_CFG).doc('config');
@@ -1063,7 +1144,7 @@
         });
       });
     }).then(function () {
-      registrarReporteLocal();
+      registrarReporteSesion();
       return id;
     });
   }
@@ -1078,7 +1159,6 @@
   }
   function tarjeta(eq) {
     var estado = ESTADO_TXT[eq.estado] ? eq.estado : 'disponible';
-    var mio = mioVigente(eq);
     var det, cta;
     if (estado === 'en_uso') {
       var t0 = Date.parse(eq.inicio);
@@ -1086,7 +1166,7 @@
       det = Date.now() > fin
         ? 'Ciclo estimado cumplido<br>Hace ' + minutos(Date.now() - t0)
         : 'En uso<br>Fin aprox. ' + hora(new Date(fin).toISOString());
-      cta = mio ? 'Toque para finalizar' : '¿Es suyo? Finalizar';
+      cta = 'Finalizar con depto y código';
     } else if (estado === 'fuera_servicio') {
       det = eq.motivo ? esc(eq.motivo) : 'No habilitado para su uso';
       cta = 'Toque para reportar';
@@ -1097,7 +1177,6 @@
     var pillTxt = estado === 'fuera_servicio' ? 'Sin servicio' : ESTADO_TXT[estado];
     return '<button type="button" class="eq ' + estado + '" data-eq="' + esc(eq.id) + '"' +
       ' aria-label="' + esc(label(eq) + ', ' + ESTADO_TXT[estado] + (estado === 'fuera_servicio' ? ', reportar problema' : '')) + '">' +
-      (mio ? '<span class="mio">SUYO</span>' : '') +
       '<span class="nom"><span>' + esc(label(eq)) + '</span><span class="pill">' + pillTxt + '</span></span>' +
       '<span class="maq"><span class="puerta"><i class="fa-solid ' + (estado === 'fuera_servicio' ? 'fa-triangle-exclamation' : TIPOS[eq.tipo].icon) + '" aria-hidden="true"></i></span></span>' +
       '<span class="det">' + det + '</span>' +
@@ -1120,7 +1199,6 @@
     }
     var c = { disponible: 0, en_uso: 0, fuera_servicio: 0 };
     lista.forEach(function (e) { if (c[e.estado] != null) c[e.estado]++; });
-    var mios = lista.filter(mioVigente);
     var mapa = '';
     ['lavadora', 'secadora'].forEach(function (t) {
       mapa += '<h3 class="grupo"><i class="fa-solid ' + TIPOS[t].icon + '" aria-hidden="true"></i> ' + TIPOS[t].plural + '</h3><div class="grid">' +
@@ -1135,16 +1213,11 @@
       '<button type="button" class="btn-normas" data-abrir-normas aria-label="Conoce las reglas de la lavandería">' +
       '<span class="artu-cara">' + arturitoCaraSvg() + '</span>' +
       '<span class="btn-normas-txt"><strong>Conoce las reglas de la lavandería</strong><em>Arturito te las explica</em><span>Protocolo de uso y acceso · WM815</span></span></button>' +
-      '<section class="mios" style="display:' + (mios.length ? 'block' : 'none') + '"><h2><i class="fa-solid fa-user-check" aria-hidden="true"></i> Sus equipos en uso</h2>' +
-      mios.map(function (e) {
-        return '<div class="mios-row"><span><strong>' + esc(label(e)) + '</strong> · desde ' + hora(e.inicio) + '</span>' +
-          '<button type="button" class="btn btn-p azul btn-mini" data-eq="' + esc(e.id) + '">Finalizar</button></div>';
-      }).join('') + '</section>' +
       '<section class="card accent-lav">' +
       '<div class="card-h"><h3><i class="fa-solid fa-soap" aria-hidden="true" style="margin-right:0.35rem;opacity:0.9"></i>Mapa de lavandería</h3>' +
       '<div class="legend"><span class="l1">Disponible</span><span class="l2">En uso</span><span class="l3">Fuera de servicio</span></div></div>' +
       '<div class="card-b">' + mapa +
-      '<p class="nota">Esta pantalla se actualiza sola. Solo puede finalizar los equipos registrados por su departamento.</p>' +
+      '<p class="nota">Esta pantalla se actualiza sola desde la nube. Para finalizar un equipo use el departamento y el código del registro.</p>' +
       '<p class="nota-accion"><button type="button" class="link-accion" data-abrir-reporte><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con un equipo</button></p>' +
       '</div></section>';
     if (primera) presentarEntradaApp();
@@ -1281,8 +1354,8 @@
         abrirHoja(
           '<div class="ok-ic"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>' +
           '<h2 id="hojaTitulo" style="text-align:center">' + esc(label(eq)) + ' registrada</h2>' +
-          '<p style="text-align:center">Quedó a nombre del depto <strong>' + esc(unidad) + '</strong>. Este teléfono recordará su registro para finalizarlo con un toque.</p>' +
-          '<p style="text-align:center;margin-bottom:0">Su código para finalizar el uso (también se envía a su correo y está disponible en conserjería):</p>' +
+          '<p style="text-align:center">Quedó a nombre del depto <strong>' + esc(unidad) + '</strong>. Guarde el código: lo necesitará junto al departamento para liberar el equipo.</p>' +
+          '<p style="text-align:center;margin-bottom:0">Código de 4 dígitos (también se envía a su correo y está en conserjería):</p>' +
           '<div class="codigo">' + esc(r.codigo) + '</div>' +
           '<div class="botones"><button type="button" class="btn btn-p" data-cerrar>Listo</button></div>'
         );
@@ -1332,7 +1405,6 @@
     }).catch(function (e) {
       console.warn('[lavandería]', e);
       if (e && e.codigo) sumarIntentoFallido();
-      if (e && e.lavUsuario && /ya fue liberado/.test(e.message)) guardarMio(eq.id, null);
       ocupado(btn, false, 'Finalizar uso');
       errEl.textContent = e && e.lavUsuario ? e.message : 'No se pudo finalizar. Revise su conexión e intente nuevamente.';
     });
