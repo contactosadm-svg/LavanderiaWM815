@@ -157,11 +157,21 @@
     .hoja h2 { margin: 0 0 0.35rem; font-size: 1.15rem; color: var(--text-main); }
     .hoja p { margin: 0 0 0.75rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.45; }
     .hoja label { display: block; font-weight: 600; font-size: 0.85rem; margin: 0.65rem 0 0.35rem; color: var(--text-secondary); }
-    .hoja input {
-      width: 100%; padding: 0.85rem; font-size: 1.25rem; font-weight: 700; letter-spacing: .06em; text-align: center;
+    .hoja input, .hoja select, .hoja textarea {
+      width: 100%; padding: 0.85rem; font-size: 1.05rem; font-weight: 600;
       border-radius: 8px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-main); font-family: inherit;
     }
-    .hoja input:focus { outline: 2px solid var(--blue-500); border-color: transparent; }
+    .hoja input[inputmode="numeric"] { font-size: 1.25rem; font-weight: 700; letter-spacing: .06em; text-align: center; }
+    .hoja textarea { min-height: 5.5rem; resize: vertical; font-weight: 500; line-height: 1.45; }
+    .hoja select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--gray-500) 50%), linear-gradient(135deg, var(--gray-500) 50%, transparent 50%); background-position: calc(100% - 1.1rem) calc(50% - 0.15rem), calc(100% - 0.75rem) calc(50% - 0.15rem); background-size: 0.35rem 0.35rem, 0.35rem 0.35rem; background-repeat: no-repeat; padding-right: 2rem; }
+    .hoja input:focus, .hoja select:focus, .hoja textarea:focus { outline: 2px solid var(--blue-500); border-color: transparent; }
+    .link-accion {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; width: 100%;
+      margin-top: 0.55rem; padding: 0.55rem 0.7rem; border-radius: 8px; border: 1px dashed color-mix(in srgb, #f59e0b 55%, transparent);
+      background: color-mix(in srgb, #f59e0b 12%, var(--card-color)); color: #fcd34d; font: inherit; font-size: 0.86rem; font-weight: 700; cursor: pointer;
+    }
+    .link-accion:hover { background: color-mix(in srgb, #f59e0b 18%, var(--card-color)); }
+    .nota-accion { margin: 0.75rem 0 0; text-align: center; }
     .err { color: #fca5a5; font-size: 0.86rem; min-height: 1.2em; margin: 0.5rem 0 0; }
     .resumen-conf {
       background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px;
@@ -191,6 +201,74 @@
       margin-top: 0.85rem; text-align: center; color: var(--text-secondary); font-size: 0.74rem;
     }
     .foot strong { color: color-mix(in srgb, var(--blue-400) 70%, #e2e8f0); font-weight: 600; }
+    /* Arturito — aviso de límite (misma animación de carga de conserjería) */
+    .modulo-carga {
+      position: fixed; inset: 0; z-index: 12000; display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; background: color-mix(in srgb, #0f172a 78%, transparent);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      animation: miniOverlayIn 0.28s ease both;
+    }
+    .modulo-carga.is-out { animation: miniOverlayOut 0.28s ease forwards; }
+    @keyframes miniOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes miniOverlayOut { to { opacity: 0; } }
+    .modulo-carga-card { width: min(17.5rem, 90vw); text-align: center; }
+    .mini-carga { position: relative; width: 9.6rem; height: 9.6rem; margin: 0 auto 0.85rem; }
+    .mini-carga::before {
+      content: ''; position: absolute; inset: 0.2rem; border-radius: 50%;
+      border: 1.5px dashed color-mix(in srgb, #74bd20 65%, transparent);
+      animation: miniAnillo 9s linear infinite;
+    }
+    @keyframes miniAnillo { to { transform: rotate(-360deg); } }
+    .mini-arturito {
+      position: absolute; left: 50%; top: 50%; z-index: 2; width: 3.4rem; height: 3.4rem;
+      margin: -1.7rem 0 0 -1.7rem; display: grid; place-items: center; border-radius: 50%;
+      background: radial-gradient(circle at 50% 40%, rgba(143, 203, 26, 0.35), transparent 70%);
+      animation: miniFlota 1.6s ease-in-out infinite;
+    }
+    .mini-arturito svg { width: 3rem; height: 3rem; overflow: visible; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
+    @keyframes miniFlota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    .mini-ojo { transform-box: fill-box; transform-origin: center; animation: miniParpadeo 3.4s ease-in-out infinite; }
+    @keyframes miniParpadeo { 0%, 84%, 100% { transform: scaleY(1); } 90% { transform: scaleY(0.12); } }
+    .mini-antena { animation: miniAntena 0.9s ease-in-out infinite alternate; }
+    @keyframes miniAntena { from { opacity: 0.35; } to { opacity: 1; } }
+    .mini-ficha {
+      --tono: #7FBA02; position: absolute; left: 50%; top: 50%; width: 2rem; height: 2.45rem;
+      margin: -1.22rem 0 0 -1rem; border-radius: 6px; background: linear-gradient(180deg, #ffffff, #e8eef5);
+      box-shadow: 0 8px 14px -6px rgba(0,0,0,0.45); animation: miniGira 2.8s linear infinite;
+    }
+    .mini-ficha::before { content: ''; display: block; height: 4px; margin: 0.38rem 0.35rem 0; border-radius: 99px; background: var(--tono); }
+    .mini-ficha::after {
+      content: ''; display: block; width: 62%; height: 3px; margin: 0.32rem 0.35rem 0; border-radius: 99px;
+      background: #cbd5e1; box-shadow: 0 0.38rem 0 #cbd5e1, 0 0.76rem 0 #e2e8f0;
+    }
+    .mini-ficha--2 { --tono: #22d3ee; animation-delay: -0.93s; }
+    .mini-ficha--3 { --tono: #f59e0b; animation-delay: -1.86s; }
+    @keyframes miniGira {
+      0% { transform: rotate(0deg) translateX(3.35rem) rotate(0deg) scale(1); z-index: 2; }
+      25% { transform: rotate(90deg) translateX(3.35rem) rotate(-90deg) scale(0.72); z-index: 1; }
+      50% { transform: rotate(180deg) translateX(3.35rem) rotate(-180deg) scale(1); z-index: 2; }
+      75% { transform: rotate(270deg) translateX(3.35rem) rotate(-270deg) scale(1.08); z-index: 3; }
+      100% { transform: rotate(360deg) translateX(3.35rem) rotate(-360deg) scale(1); z-index: 2; }
+    }
+    .modulo-carga .carga-titulo { margin: 0; font-size: 1.05rem; font-weight: 700; color: #f8fafc; }
+    .modulo-carga .carga-sub { margin: 0.35rem 0 0; font-size: 0.88rem; font-weight: 600; color: #9fe04a; line-height: 1.4; }
+    .modulo-carga .carga-detalle { margin: 0.55rem 0 0; font-size: 0.82rem; color: #c5d0e0; line-height: 1.4; }
+    .carga-puntos i { font-style: normal; display: inline-block; animation: cargaPunto 1.2s ease-in-out infinite; }
+    .carga-puntos i:nth-child(2) { animation-delay: 0.15s; }
+    .carga-puntos i:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes cargaPunto { 0%, 70%, 100% { transform: translateY(0); opacity: 0.4; } 35% { transform: translateY(-5px); opacity: 1; } }
+    .modulo-carga .carga-barra {
+      position: relative; width: min(14rem, 70vw); height: 5px; margin: 0.8rem auto 0;
+      border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.12);
+    }
+    .modulo-carga .carga-barra span {
+      position: absolute; top: 0; bottom: 0; width: 40%; border-radius: inherit;
+      background: linear-gradient(90deg, #9fe04a, #22d3ee);
+      animation: cargaBarra 1.3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    @keyframes cargaBarra { from { left: -40%; } to { left: 100%; } }
+    .modulo-carga .carga-accion { margin-top: 1rem; }
+    .modulo-carga .carga-accion .btn { min-width: 8.5rem; }
     @media (max-width: 420px) {
       .brand img { width: 52px; height: 52px; }
       .page-header h1 { font-size: 1.15rem; }
@@ -200,7 +278,11 @@
       .card-h { flex-direction: column; align-items: flex-start; }
       .legend { gap: 0.55rem; font-size: 0.74rem; }
     }
-    @media (prefers-reduced-motion: reduce) { .eq.en_uso .puerta i, .hoja { animation: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .eq.en_uso .puerta i, .hoja, .modulo-carga, .modulo-carga.is-out,
+      .mini-carga::before, .mini-arturito, .mini-ojo, .mini-antena, .mini-ficha,
+      .carga-puntos i, .modulo-carga .carga-barra span { animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -239,8 +321,20 @@
   var COL_CFG = 'pcsh_lavanderia';
   var COL_EQ = 'pcsh_lavanderia_equipos';
   var COL_USOS = 'pcsh_lavanderia_usos';
+  var COL_REP = 'pcsh_lavanderia_reportes';
   var LS_MIOS = 'pcsh_lav_mis_usos_v1';
   var LS_INTENTOS = 'pcsh_lav_intentos_v1';
+  var LS_REPORTES = 'pcsh_lav_reportes_v1';
+  var MOTIVOS_REPORTE = [
+    'No enciende / no parte',
+    'No completa el ciclo',
+    'Ruido o vibración anormal',
+    'Fuga de agua',
+    'No lava o no seca bien',
+    'Error en panel / pantalla',
+    'Problema de pago o devolución',
+    'Otro'
+  ];
   var TZ = 'America/Santiago';
   var IDS = ['lavadora-1', 'lavadora-2', 'lavadora-3', 'lavadora-4', 'lavadora-5', 'secadora-1', 'secadora-2', 'secadora-3', 'secadora-4', 'secadora-5'];
   var TIPOS = { lavadora: { label: 'Lavadora', plural: 'Lavadoras', icon: 'fa-water' }, secadora: { label: 'Secadora', plural: 'Secadoras', icon: 'fa-wind' } };
@@ -291,13 +385,75 @@
     h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return (h2 >>> 0).toString(16) + (h1 >>> 0).toString(16);
   }
-  function errUsuario(msg) { var e = new Error(msg); e.lavUsuario = true; return e; }
+  function errUsuario(msg, extra) {
+    var e = new Error(msg);
+    e.lavUsuario = true;
+    if (extra && typeof extra === 'object') Object.keys(extra).forEach(function (k) { e[k] = extra[k]; });
+    return e;
+  }
   function toast(msg) {
     var t = $('toast');
     t.textContent = msg;
     t.style.display = 'block';
     clearTimeout(toast._t);
     toast._t = setTimeout(function () { t.style.display = 'none'; }, 3800);
+  }
+  function equiposEnUsoUnidad(unidad) {
+    var k = norm(unidad);
+    return IDS.map(function (id) { return st.equipos[id]; }).filter(function (eq) {
+      return eq && eq.estado === 'en_uso' && norm(eq.unidad) === k;
+    });
+  }
+  function limiteUnidad(unidad) {
+    var max = Number(st.cfg && st.cfg.maxPorUnidad) || 0;
+    var enUso = equiposEnUsoUnidad(unidad).length;
+    return { max: max, enUso: enUso, superado: !!(max && enUso >= max) };
+  }
+  function arturitoHtml(titulo, sub, detalle) {
+    return '<div class="mini-carga" aria-hidden="true">' +
+      '<span class="mini-ficha"></span><span class="mini-ficha mini-ficha--2"></span><span class="mini-ficha mini-ficha--3"></span>' +
+      '<div class="mini-arturito"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">' +
+      '<line x1="32" y1="12" x2="32" y2="5" stroke="#5a8501" stroke-width="2.4"/>' +
+      '<circle class="mini-antena" cx="32" cy="4.5" r="3.2" fill="#FFD700"/>' +
+      '<rect x="10" y="14" width="44" height="42" rx="12" fill="#7FBA02"/>' +
+      '<rect x="15" y="20" width="34" height="24" rx="6" fill="#1a1a1a"/>' +
+      '<ellipse class="mini-ojo" cx="26" cy="31" rx="3.1" ry="3.1" fill="#7FBA02"/>' +
+      '<ellipse class="mini-ojo" cx="38" cy="31" rx="3.1" ry="3.1" fill="#7FBA02"/>' +
+      '<path d="M26 39 Q32 44 38 39" stroke="#7FBA02" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
+      '</svg></div></div>' +
+      '<p class="carga-titulo">' + esc(titulo) + '<span class="carga-puntos" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></p>' +
+      '<p class="carga-sub">' + esc(sub) + '</p>' +
+      (detalle ? '<p class="carga-detalle">' + esc(detalle) + '</p>' : '') +
+      '<div class="carga-barra" aria-hidden="true"><span></span></div>' +
+      '<div class="carga-accion"><button type="button" class="btn btn-p" data-cerrar-limite>Entendido</button></div>';
+  }
+  function cerrarAvisoLimite() {
+    var velo = document.querySelector('.modulo-carga');
+    if (!velo) return;
+    velo.classList.add('is-out');
+    setTimeout(function () { if (velo.parentNode) velo.remove(); }, 280);
+  }
+  function mostrarAvisoLimite(unidad, enUso, max) {
+    cerrarHoja();
+    document.querySelectorAll('.modulo-carga').forEach(function (n) { n.remove(); });
+    var velo = document.createElement('div');
+    velo.className = 'modulo-carga';
+    velo.setAttribute('role', 'alertdialog');
+    velo.setAttribute('aria-modal', 'true');
+    velo.setAttribute('aria-live', 'assertive');
+    velo.innerHTML = '<div class="modulo-carga-card">' + arturitoHtml(
+      'Límite alcanzado',
+      'Arturito revisa sus equipos…',
+      'El depto ' + unidad + ' ya tiene ' + enUso + ' equipo(s) en uso. El máximo permitido es ' + max + '. Libere uno antes de registrar otro.'
+    ) + '</div>';
+    document.body.appendChild(velo);
+    var btn = velo.querySelector('[data-cerrar-limite]');
+    if (btn) setTimeout(function () { btn.focus(); }, 80);
+  }
+  function esErrorLimite(e) {
+    if (!e) return false;
+    if (e.lavLimite) return true;
+    return /máximo|maximo|ya tiene .* en uso/i.test(String(e.message || ''));
   }
 
   /* ---------- Registros propios de este dispositivo ---------- */
@@ -361,7 +517,11 @@
         var k = norm(unidad);
         var enUso = snaps.slice(1).filter(function (x) { return x.exists && x.data().estado === 'en_uso' && norm(x.data().unidad) === k; }).length;
         var max = Number(cfg.maxPorUnidad) || 0;
-        if (max && enUso >= max) throw errUsuario('Su unidad ya tiene ' + enUso + ' equipo(s) en uso. El máximo simultáneo es ' + max + '.');
+        if (max && enUso >= max) {
+          throw errUsuario('Su unidad ya tiene ' + enUso + ' equipo(s) en uso. El máximo simultáneo es ' + max + '.', {
+            lavLimite: true, enUso: enUso, max: max, unidad: unidad
+          });
+        }
         tx.update(refs[idx], {
           estado: 'en_uso', unidad: unidad, usoId: usoId, inicio: inicio, codigoHash: hashCodigo(usoId, codigo), motivo: '',
           actualizadoAt: inicio, actualizadoPor: 'Residente ' + unidad, origen: 'qr'
@@ -404,6 +564,45 @@
     }).then(function () { guardarMio(eqId, null); });
   }
 
+  function reportesRecientes() {
+    try {
+      var v = JSON.parse(localStorage.getItem(LS_REPORTES) || '[]');
+      return Array.isArray(v) ? v.filter(function (t) { return Date.now() - t < 3600000; }) : [];
+    } catch (e) { return []; }
+  }
+  function registrarReporteLocal() {
+    var arr = reportesRecientes();
+    arr.push(Date.now());
+    try { localStorage.setItem(LS_REPORTES, JSON.stringify(arr.slice(-8))); } catch (e) {}
+  }
+  function enviarReporte(eq, unidad, motivo, detalle) {
+    var id = 'lavrep_' + Date.now() + '_' + aleatorio(6, 'abcdefghijkmnpqrstuvwxyz23456789');
+    var cfgRef = db.collection(COL_CFG).doc('config');
+    return db.runTransaction(function (tx) {
+      return tx.get(cfgRef).then(function (s) {
+        var cfg = s.exists ? s.data() || {} : {};
+        if (!cfg.tokenPublico || cfg.tokenPublico !== token) throw errUsuario('El enlace ya no es válido. Escanee nuevamente el código QR de la lavandería.');
+        tx.set(db.collection(COL_REP).doc(id), {
+          equipoId: eq.id,
+          tipo: eq.tipo,
+          numero: eq.numero,
+          unidad: unidad,
+          motivo: motivo,
+          detalle: detalle || '',
+          equipoEstado: eq.estado || '',
+          edificio: (st.cfg && st.cfg.nombreEdificio) || 'Edificio WM 815',
+          creadoAt: nowIso(),
+          origen: 'qr',
+          novedadEstado: 'pendiente',
+          correoEstado: 'pendiente'
+        });
+      });
+    }).then(function () {
+      registrarReporteLocal();
+      return id;
+    });
+  }
+
   /* ---------- Render ---------- */
   function pantalla(icono, titulo, texto) {
     $('app').innerHTML = '<div class="estado-pantalla"><i class="fa-solid ' + icono + '" aria-hidden="true"></i><h2>' + esc(titulo) + '</h2><p>' + esc(texto) + '</p></div>';
@@ -422,15 +621,15 @@
       det = 'Depto <b>' + esc(eq.unidad) + '</b><br>' + (Date.now() > fin ? 'Hace ' + minutos(Date.now() - t0) : 'Fin aprox. ' + hora(new Date(fin).toISOString()));
       cta = mio ? 'Toque para finalizar' : '¿Es suyo? Finalizar';
     } else if (estado === 'fuera_servicio') {
-      det = 'No habilitado para su uso';
-      cta = '&nbsp;';
+      det = eq.motivo ? esc(eq.motivo) : 'No habilitado para su uso';
+      cta = 'Toque para reportar';
     } else {
       det = 'Libre para usar';
       cta = 'Toque para registrar';
     }
     var pillTxt = estado === 'fuera_servicio' ? 'Sin servicio' : ESTADO_TXT[estado];
-    return '<button type="button" class="eq ' + estado + '" data-eq="' + esc(eq.id) + '"' + (estado === 'fuera_servicio' ? ' aria-disabled="true"' : '') +
-      ' aria-label="' + esc(label(eq) + ', ' + ESTADO_TXT[estado] + (estado === 'en_uso' ? ', departamento ' + eq.unidad : '')) + '">' +
+    return '<button type="button" class="eq ' + estado + '" data-eq="' + esc(eq.id) + '"' +
+      ' aria-label="' + esc(label(eq) + ', ' + ESTADO_TXT[estado] + (estado === 'en_uso' ? ', departamento ' + eq.unidad : '') + (estado === 'fuera_servicio' ? ', reportar problema' : '')) + '">' +
       (mio ? '<span class="mio">SUYO</span>' : '') +
       '<span class="nom"><span>' + esc(label(eq)) + '</span><span class="pill">' + pillTxt + '</span></span>' +
       '<span class="maq"><span class="puerta"><i class="fa-solid ' + (estado === 'fuera_servicio' ? 'fa-triangle-exclamation' : TIPOS[eq.tipo].icon) + '" aria-hidden="true"></i></span></span>' +
@@ -469,7 +668,9 @@
       '<div class="card-h"><h3><i class="fa-solid fa-soap" aria-hidden="true" style="margin-right:0.35rem;opacity:0.9"></i>Mapa de lavandería</h3>' +
       '<div class="legend"><span class="l1">Disponible</span><span class="l2">En uso</span><span class="l3">Fuera de servicio</span></div></div>' +
       '<div class="card-b">' + mapa +
-      '<p class="nota">Esta pantalla se actualiza sola. Solo puede finalizar los equipos registrados por su departamento.</p></div></section>';
+      '<p class="nota">Esta pantalla se actualiza sola. Solo puede finalizar los equipos registrados por su departamento.</p>' +
+      '<p class="nota-accion"><button type="button" class="link-accion" data-abrir-reporte><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con un equipo</button></p>' +
+      '</div></section>';
   }
 
   /* ---------- Hoja modal ---------- */
@@ -482,6 +683,76 @@
   function cerrarHoja() { $('velo').classList.remove('open'); $('hoja').innerHTML = ''; }
   function ocupado(btn, si, txt) { if (!btn) return; btn.disabled = si; if (txt) btn.textContent = txt; }
 
+  function opcionesMotivoHtml(sel) {
+    return MOTIVOS_REPORTE.map(function (m) {
+      return '<option value="' + esc(m) + '"' + (m === sel ? ' selected' : '') + '>' + esc(m) + '</option>';
+    }).join('');
+  }
+  function opcionesEquipoHtml(selId) {
+    return IDS.map(function (id) {
+      var eq = st.equipos[id];
+      if (!eq) return '';
+      return '<option value="' + esc(id) + '"' + (id === selId ? ' selected' : '') + '>' + esc(label(eq)) + ' · ' + esc(ESTADO_TXT[eq.estado] || eq.estado) + '</option>';
+    }).join('');
+  }
+  function flujoElegirEquipoReporte() {
+    abrirHoja(
+      '<h2 id="hojaTitulo">Reportar problema</h2>' +
+      '<p>Seleccione el equipo con el inconveniente. El aviso llegará a conserjería como novedad de lavandería y recibirá un correo de respaldo.</p>' +
+      '<form id="fRepEq" autocomplete="off"><label for="iEqRep">Equipo</label>' +
+      '<select id="iEqRep" required><option value="">Seleccione…</option>' + opcionesEquipoHtml('') + '</select>' +
+      '<p class="err" id="eRepEq"></p>' +
+      '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p">Continuar</button></div></form>'
+    );
+    $('fRepEq').onsubmit = function (ev) {
+      ev.preventDefault();
+      var id = $('iEqRep').value;
+      var eq = st.equipos[id];
+      if (!eq) { $('eRepEq').textContent = 'Seleccione un equipo.'; return; }
+      flujoReportar(eq);
+    };
+  }
+  function flujoReportar(eq) {
+    abrirHoja(
+      '<h2 id="hojaTitulo">Reportar ' + esc(label(eq)) + '</h2>' +
+      '<p>Describa el problema. Quedará registrado en conserjería con etiqueta <strong>Lavandería</strong> y se enviará un correo de respaldo a su unidad (con copia a SpinOk).</p>' +
+      '<form id="fRep" autocomplete="off">' +
+      '<label for="iDepR">Departamento</label><input id="iDepR" inputmode="numeric" maxlength="8" placeholder="Ej: 1914" required>' +
+      '<label for="iMot">Motivo</label><select id="iMot" required><option value="">Seleccione…</option>' + opcionesMotivoHtml('') + '</select>' +
+      '<label for="iDet">Detalle (opcional)</label><textarea id="iDet" maxlength="500" placeholder="Ej: hace ruido fuerte desde el minuto 10…"></textarea>' +
+      '<p class="err" id="eRep"></p>' +
+      '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p" id="bRep">Enviar reporte</button></div></form>'
+    );
+    $('fRep').onsubmit = function (ev) {
+      ev.preventDefault();
+      if (reportesRecientes().length >= 3) {
+        $('eRep').textContent = 'Ya envió varios reportes hace poco. Espere un momento o avise en conserjería.';
+        return;
+      }
+      var raw = $('iDepR').value.trim();
+      var unidad = buscarUnidad(raw);
+      var motivo = $('iMot').value;
+      var detalle = $('iDet').value.trim();
+      if (!raw) { $('eRep').textContent = 'Ingrese el número de departamento.'; return; }
+      if (!(st.cfg.unidades || []).length) { $('eRep').textContent = 'El sistema aún no tiene el listado de unidades. Consulte en conserjería.'; return; }
+      if (!unidad) { $('eRep').textContent = 'El departamento ' + raw + ' no existe en el edificio.'; return; }
+      if (!motivo) { $('eRep').textContent = 'Seleccione el motivo del reporte.'; return; }
+      var b = $('bRep');
+      ocupado(b, true, 'Enviando…');
+      enviarReporte(eq, unidad, motivo, detalle).then(function () {
+        abrirHoja(
+          '<div class="ok-ic"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>' +
+          '<h2 id="hojaTitulo" style="text-align:center">Reporte enviado</h2>' +
+          '<p style="text-align:center">Quedó registrado en conserjería como novedad de <strong>Lavandería</strong> (' + esc(label(eq)) + ', depto ' + esc(unidad) + '). Recibirá un correo de respaldo con los datos de contacto de SpinOk.</p>' +
+          '<div class="botones"><button type="button" class="btn btn-p" data-cerrar>Listo</button></div>'
+        );
+      }).catch(function (e) {
+        console.warn('[lavandería] reporte', e);
+        ocupado(b, false, 'Enviar reporte');
+        $('eRep').textContent = e && e.lavUsuario ? e.message : 'No se pudo enviar el reporte. Revise su conexión e intente nuevamente.';
+      });
+    };
+  }
   function flujoRegistrar(eq) {
     abrirHoja(
       '<h2 id="hojaTitulo">Registrar ' + esc(label(eq)) + '</h2>' +
@@ -489,7 +760,8 @@
       '<form id="fReg" autocomplete="off"><label for="iDep">Departamento</label>' +
       '<input id="iDep" inputmode="numeric" maxlength="8" placeholder="Ej: 1914" required>' +
       '<p class="err" id="eReg"></p>' +
-      '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p">Continuar</button></div></form>'
+      '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p">Continuar</button></div></form>' +
+      '<button type="button" class="link-accion" data-reportar="' + esc(eq.id) + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con este equipo</button>'
     );
     $('fReg').onsubmit = function (ev) {
       ev.preventDefault();
@@ -499,10 +771,20 @@
       if (!(st.cfg.unidades || []).length) { $('eReg').textContent = 'El sistema aún no tiene el listado de unidades. Consulte en conserjería.'; return; }
       if (!unidad) { $('eReg').textContent = 'El departamento ' + raw + ' no existe en el edificio.'; return; }
       if (unidadBloqueada(unidad)) { $('eReg').textContent = 'Su unidad no está habilitada para usar la lavandería. Consulte en conserjería.'; return; }
+      var lim = limiteUnidad(unidad);
+      if (lim.superado) {
+        mostrarAvisoLimite(unidad, lim.enUso, lim.max);
+        return;
+      }
       confirmarRegistro(eq, unidad);
     };
   }
   function confirmarRegistro(eq, unidad) {
+    var lim = limiteUnidad(unidad);
+    if (lim.superado) {
+      mostrarAvisoLimite(unidad, lim.enUso, lim.max);
+      return;
+    }
     abrirHoja(
       '<h2 id="hojaTitulo">Confirmar registro</h2>' +
       '<div class="resumen-conf">Equipo: <strong>' + esc(label(eq)) + '</strong><br>Departamento: <strong>' + esc(unidad) + '</strong><br>Fecha: ' + fechaHora(nowIso()) + '</div>' +
@@ -525,6 +807,10 @@
         );
       }).catch(function (e) {
         console.warn('[lavandería]', e);
+        if (esErrorLimite(e)) {
+          mostrarAvisoLimite(e.unidad || unidad, e.enUso || limiteUnidad(unidad).enUso, e.max || Number(st.cfg.maxPorUnidad) || 0);
+          return;
+        }
         ocupado(b, false, 'Confirmar');
         $('eConf').textContent = e && e.lavUsuario ? e.message : 'No se pudo registrar. Revise su conexión e intente nuevamente.';
       });
@@ -538,7 +824,8 @@
         '<div class="resumen-conf">Equipo: <strong>' + esc(label(eq)) + '</strong><br>Departamento: <strong>' + esc(eq.unidad) + '</strong><br>Desde: ' + hora(eq.inicio) + ' (' + minutos(Date.now() - Date.parse(eq.inicio)) + ')</div>' +
         '<p>¿Ya retiró su ropa? El equipo quedará disponible para otros residentes.</p>' +
         '<p class="err" id="eLib"></p>' +
-        '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="button" class="btn btn-p azul" id="bLib">Finalizar uso</button></div>'
+        '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="button" class="btn btn-p azul" id="bLib">Finalizar uso</button></div>' +
+        '<button type="button" class="link-accion" data-reportar="' + esc(eq.id) + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con este equipo</button>'
       );
       $('bLib').onclick = function () { ejecutarLiberar(eq, mio.unidad, mio.codigo, $('bLib'), $('eLib')); };
       return;
@@ -550,6 +837,7 @@
       '<label for="iCod">Código de 4 dígitos</label><input id="iCod" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required>' +
       '<p class="err" id="eLib"></p>' +
       '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p azul" id="bLib">Finalizar uso</button></div></form>' +
+      '<button type="button" class="link-accion" data-reportar="' + esc(eq.id) + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con este equipo</button>' +
       '<p style="margin:12px 0 0;font-size:0.8rem">El código está en el correo de confirmación. También puede pedirlo en conserjería.</p>'
     );
     $('fLib').onsubmit = function (ev) {
@@ -578,16 +866,33 @@
   }
 
   document.addEventListener('click', function (ev) {
+    if (ev.target.closest('[data-cerrar-limite]') || (ev.target.classList && ev.target.classList.contains('modulo-carga'))) {
+      cerrarAvisoLimite();
+      return;
+    }
     if (ev.target.closest('[data-cerrar]') || ev.target === $('velo')) { cerrarHoja(); return; }
+    if (!accesoValido()) return;
+    var abrirRep = ev.target.closest('[data-abrir-reporte]');
+    if (abrirRep) { flujoElegirEquipoReporte(); return; }
+    var repBtn = ev.target.closest('[data-reportar]');
+    if (repBtn) {
+      var eqR = st.equipos[repBtn.getAttribute('data-reportar')];
+      if (eqR) flujoReportar(eqR);
+      return;
+    }
     var b = ev.target.closest('[data-eq]');
-    if (!b || !accesoValido()) return;
+    if (!b) return;
     var eq = st.equipos[b.getAttribute('data-eq')];
     if (!eq) return;
     if (eq.estado === 'disponible') flujoRegistrar(eq);
     else if (eq.estado === 'en_uso') flujoLiberar(eq);
-    else toast(label(eq) + ' está fuera de servicio' + (eq.motivo ? ': ' + eq.motivo : '') + '.');
+    else flujoReportar(eq);
   });
-  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') cerrarHoja(); });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Escape') return;
+    if (document.querySelector('.modulo-carga')) cerrarAvisoLimite();
+    else cerrarHoja();
+  });
 
   /* ---------- Tiempo real ---------- */
   if (!token) {
