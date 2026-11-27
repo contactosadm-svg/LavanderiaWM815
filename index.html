@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#121820">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lavandería — Residentes</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22%23059669%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M9%2025V11h5v4h4v-4h5v14H9z%22%2F%3E%3C%2Fsvg%3E">
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Syne:wght@700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" media="print" onload="this.media='all'">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #121820; --surface: #151b24; --card: #1e2736; --border: #2d3a4f; --input: #181f2a;
+      --text: #e8eef5; --muted: #9eb0c8; --accent: #74bd20; --accent-2: #8fd03a; --on-accent: #0f172a;
+      --ok: #22c55e; --uso: #3b82f6; --off: #ef4444; --radius: 14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 14px calc(28px + env(safe-area-inset-bottom)); }
+    header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    header img { width: 46px; height: 46px; border-radius: 12px; background: #fff; object-fit: contain; }
+    header h1 { margin: 0; font-family: 'Syne', 'DM Sans', sans-serif; font-size: 1.45rem; line-height: 1.1; }
+    header p { margin: 2px 0 0; color: var(--muted); font-size: 0.88rem; }
+    .live { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 700; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+    .live::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #64748b; }
+    .live.on::before { background: var(--ok); box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 70% { box-shadow: 0 0 0 7px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+    .resumen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .chip { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 9px 10px; text-align: center; }
+    .chip b { display: block; font-size: 1.35rem; line-height: 1.1; }
+    .chip span { font-size: 0.68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 700; }
+    .chip.ok b { color: var(--ok); } .chip.uso b { color: #60a5fa; } .chip.off b { color: #f87171; }
+    .mios { background: color-mix(in srgb, var(--uso) 14%, var(--card)); border: 1px solid color-mix(in srgb, var(--uso) 55%, transparent); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 12px; display: none; }
+    .mios h2 { margin: 0 0 6px; font-size: 0.9rem; }
+    .mios-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-top: 1px solid rgba(255,255,255,.08); font-size: 0.9rem; }
+    .mios-row:first-of-type { border-top: 0; }
+    h3.grupo { margin: 16px 0 8px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .eq { --c: var(--ok); position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 10px 12px; border-radius: var(--radius); background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1.5px solid color-mix(in srgb, var(--c) 60%, transparent); color: var(--text); font: inherit; cursor: pointer; text-align: center; transition: transform .12s ease, box-shadow .12s ease; }
+    .eq:active { transform: scale(.97); }
+    .eq:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .eq.en_uso { --c: var(--uso); }
+    .eq.fuera_servicio { --c: var(--off); cursor: not-allowed; }
+    .eq .nom { font-weight: 700; font-size: 0.98rem; }
+    .eq .pill { font-size: 0.66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px; background: var(--c); color: #fff; }
+    .maq { position: relative; width: 70px; height: 80px; border-radius: 11px; background: linear-gradient(180deg, #e8eef5, #c5d0e0); box-shadow: inset 0 -4px 0 rgba(0,0,0,.12); }
+    .maq::before { content: ''; position: absolute; left: 8px; top: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); }
+    .maq::after { content: ''; position: absolute; right: 8px; top: 8px; width: 20px; height: 5px; border-radius: 9px; background: #94a3b8; }
+    .puerta { position: absolute; left: 50%; top: 21px; width: 50px; height: 50px; margin-left: -25px; border-radius: 50%; background: #475569; border: 4px solid #94a3b8; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.85); font-size: 1rem; overflow: hidden; }
+    .eq.en_uso .puerta { background: radial-gradient(circle at 35% 35%, #93c5fd, #1d4ed8); }
+    .eq.en_uso .puerta i { animation: giro 1.6s linear infinite; }
+    .eq.fuera_servicio .puerta { background: #3f1d1d; color: #fca5a5; }
+    @keyframes giro { to { transform: rotate(360deg); } }
+    .eq .det { font-size: 0.8rem; color: var(--muted); line-height: 1.35; min-height: 2.2em; }
+    .eq .det b { color: var(--text); font-size: 1.05rem; }
+    .eq .cta { font-size: 0.8rem; font-weight: 700; color: var(--c); }
+    .eq.en_uso .cta { color: #93c5fd; }
+    .eq .mio { position: absolute; top: 8px; right: 8px; font-size: 0.62rem; font-weight: 800; background: var(--accent); color: var(--on-accent); padding: 2px 6px; border-radius: 6px; }
+    .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 18px 0 4px; font-size: 0.8rem; color: var(--muted); }
+    .legend span::before { content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+    .legend .l1::before { background: var(--ok); } .legend .l2::before { background: var(--uso); } .legend .l3::before { background: var(--off); }
+    .nota { text-align: center; color: var(--muted); font-size: 0.76rem; margin-top: 10px; }
+    .estado-pantalla { text-align: center; padding: 60px 16px; color: var(--muted); }
+    .estado-pantalla i { font-size: 2.4rem; color: var(--accent); margin-bottom: 12px; }
+    .estado-pantalla h2 { color: var(--text); margin: 0 0 6px; }
+    /* Hoja modal */
+    .velo { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
+    .velo.open { display: flex; }
+    .hoja { width: 100%; max-width: 460px; background: var(--card); border: 1px solid var(--border); border-radius: 20px 20px 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom)); box-shadow: 0 -20px 50px rgba(0,0,0,.5); animation: sube .2s ease-out; max-height: 92vh; overflow-y: auto; }
+    @media (min-width: 640px) { .velo { align-items: center; } .hoja { border-radius: 20px; } }
+    @keyframes sube { from { transform: translateY(30px); opacity: .4; } }
+    .hoja h2 { margin: 0 0 4px; font-size: 1.2rem; }
+    .hoja p { margin: 0 0 12px; color: var(--muted); font-size: 0.92rem; line-height: 1.45; }
+    .hoja label { display: block; font-weight: 700; font-size: 0.85rem; margin: 10px 0 6px; }
+    .hoja input { width: 100%; padding: 14px; font-size: 1.35rem; font-weight: 700; letter-spacing: .06em; text-align: center; border-radius: 12px; border: 1px solid #334155; background: var(--input); color: var(--text); font-family: inherit; }
+    .hoja input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    .err { color: #fca5a5; font-size: 0.86rem; min-height: 1.2em; margin: 8px 0 0; }
+    .resumen-conf { background: var(--input); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6; }
+    .botones { display: flex; gap: 8px; margin-top: 14px; }
+    .btn { flex: 1; padding: 14px; border-radius: 12px; border: 0; font: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; }
+    .btn:disabled { opacity: .6; cursor: progress; }
+    .btn-p { background: var(--accent); color: var(--on-accent); }
+    .btn-p.azul { background: var(--uso); color: #fff; }
+    .btn-s { background: #243044; color: var(--text); border: 1px solid #334155; }
+    .btn-mini { flex: 0 0 auto; padding: 7px 12px; font-size: 0.82rem; border-radius: 9px; }
+    .codigo { font-size: 2.4rem; font-weight: 800; letter-spacing: .3em; text-align: center; color: var(--accent-2); margin: 6px 0 10px; }
+    .ok-ic { font-size: 2.6rem; color: var(--ok); text-align: center; margin-bottom: 6px; }
+    .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: #0f172a; border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 0.9rem; z-index: 60; display: none; max-width: 92vw; text-align: center; }
+    @media (max-width: 420px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .maq { width: 60px; height: 70px; } .puerta { width: 42px; height: 42px; margin-left: -21px; top: 19px; } }
+    @media (prefers-reduced-motion: reduce) { .eq.en_uso .puerta i, .live.on::before, .hoja { animation: none; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="https://img.mailinblue.com/8323725/images/content_library/original/6844749040dd0f16c5341248.png" alt="" width="46" height="46">
+    <div>
+      <h1>Lavandería</h1>
+      <p id="edificio">Disponibilidad en tiempo real</p>
+    </div>
+    <span class="live" id="live">Conectando…</span>
+  </header>
+  <main id="app">
+    <div class="estado-pantalla"><i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i><h2>Cargando equipos…</h2></div>
+  </main>
+</div>
+
+<div class="velo" id="velo" role="dialog" aria-modal="true" aria-labelledby="hojaTitulo">
+  <div class="hoja" id="hoja"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+<script>
+(function () {
+  /* Mismo proyecto Firestore que conserjeria wm.html (window.__PCSH_FIREBASE_CONFIG__). */
+  var FIREBASE = {
+    apiKey: 'AIzaSyBUhQQcloZtxcz6jnFXt3MflAkYZMlka6g',
+    authDomain: 'conserjeria2-1.firebaseapp.com',
+    projectId: 'conserjeria2-1',
+    storageBucket: 'conserjeria2-1.firebasestorage.app',
+    messagingSenderId: '832568527054',
+    appId: '1:832568527054:web:b463e8b875ba9a3519289f'
+  };
+  var COL_CFG = 'pcsh_lavanderia';
+  var COL_EQ = 'pcsh_lavanderia_equipos';
+  var COL_USOS = 'pcsh_lavanderia_usos';
+  var LS_MIOS = 'pcsh_lav_mis_usos_v1';
+  var LS_INTENTOS = 'pcsh_lav_intentos_v1';
+  var TZ = 'America/Santiago';
+  var IDS = ['lavadora-1', 'lavadora-2', 'lavadora-3', 'lavadora-4', 'lavadora-5', 'secadora-1', 'secadora-2', 'secadora-3', 'secadora-4', 'secadora-5'];
+  var TIPOS = { lavadora: { label: 'Lavadora', plural: 'Lavadoras', icon: 'fa-water' }, secadora: { label: 'Secadora', plural: 'Secadoras', icon: 'fa-wind' } };
+  var ESTADO_TXT = { disponible: 'Disponible', en_uso: 'En uso', fuera_servicio: 'Fuera de servicio' };
+
+  var token = new URLSearchParams(location.search).get('k') || '';
+  var st = { cfg: null, equipos: {}, cargado: { cfg: false, eq: false } };
+
+  var app = firebase.initializeApp(FIREBASE);
+  var db = firebase.firestore(app);
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function norm(v) { return String(v == null ? '' : v).trim().toLowerCase().replace(/\s/g, ''); }
+  function nowIso() { return new Date().toISOString(); }
+  function hora(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '—';
+    return d.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
+  }
+  function fechaHora(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '—';
+    return d.toLocaleString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: TZ });
+  }
+  function minutos(ms) {
+    var m = Math.max(0, Math.round(ms / 60000));
+    return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min';
+  }
+  function label(eq) { return TIPOS[eq.tipo].label + ' ' + eq.numero; }
+  function aleatorio(n, alfabeto) {
+    var a = new Uint8Array(n);
+    crypto.getRandomValues(a);
+    var out = '';
+    for (var i = 0; i < n; i++) out += alfabeto[a[i] % alfabeto.length];
+    return out;
+  }
+  /** Mismo algoritmo que el panel de conserjería. */
+  function hashCodigo(usoId, codigo) {
+    var str = 'lav|' + usoId + '|' + codigo;
+    var h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (var i = 0; i < str.length; i++) {
+      var ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (h2 >>> 0).toString(16) + (h1 >>> 0).toString(16);
+  }
+  function errUsuario(msg) { var e = new Error(msg); e.lavUsuario = true; return e; }
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.style.display = 'none'; }, 3800);
+  }
+
+  /* ---------- Registros propios de este dispositivo ---------- */
+  function misUsos() {
+    try { var v = JSON.parse(localStorage.getItem(LS_MIOS) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; }
+  }
+  function guardarMio(eqId, dato) {
+    var m = misUsos();
+    if (dato) m[eqId] = dato; else delete m[eqId];
+    try { localStorage.setItem(LS_MIOS, JSON.stringify(m)); } catch (e) {}
+  }
+  function mioVigente(eq) {
+    var m = misUsos()[eq.id];
+    return m && eq.estado === 'en_uso' && m.usoId === eq.usoId ? m : null;
+  }
+  function bloqueoIntentos() {
+    try {
+      var v = JSON.parse(localStorage.getItem(LS_INTENTOS) || '{}');
+      if (v.hasta && Date.now() < v.hasta) return Math.ceil((v.hasta - Date.now()) / 1000);
+    } catch (e) {}
+    return 0;
+  }
+  function sumarIntentoFallido() {
+    var v = {};
+    try { v = JSON.parse(localStorage.getItem(LS_INTENTOS) || '{}'); } catch (e) {}
+    v.n = (v.n || 0) + 1;
+    if (v.n >= 5) { v.hasta = Date.now() + 60000; v.n = 0; }
+    try { localStorage.setItem(LS_INTENTOS, JSON.stringify(v)); } catch (e) {}
+  }
+
+  /* ---------- Validaciones ---------- */
+  function accesoValido() { return !!(st.cfg && token && st.cfg.tokenPublico && token === st.cfg.tokenPublico); }
+  function buscarUnidad(raw) {
+    var k = norm(raw);
+    var lista = (st.cfg && st.cfg.unidades) || [];
+    for (var i = 0; i < lista.length; i++) if (norm(lista[i]) === k) return String(lista[i]);
+    return '';
+  }
+  function unidadBloqueada(num) {
+    var k = norm(num);
+    return ((st.cfg && st.cfg.bloqueadas) || []).some(function (u) { return norm(u) === k; });
+  }
+
+  /* ---------- Transacciones ---------- */
+  function registrar(eqId, unidad) {
+    var usoId = 'lav_' + Date.now() + '_' + aleatorio(6, 'abcdefghijkmnpqrstuvwxyz23456789');
+    var codigo = aleatorio(4, '0123456789');
+    var inicio = nowIso();
+    var cfgRef = db.collection(COL_CFG).doc('config');
+    var refs = IDS.map(function (id) { return db.collection(COL_EQ).doc(id); });
+    var idx = IDS.indexOf(eqId);
+    return db.runTransaction(function (tx) {
+      return Promise.all([tx.get(cfgRef)].concat(refs.map(function (r) { return tx.get(r); }))).then(function (snaps) {
+        var cfg = snaps[0].exists ? snaps[0].data() || {} : {};
+        if (!cfg.tokenPublico || cfg.tokenPublico !== token) throw errUsuario('El enlace ya no es válido. Escanee nuevamente el código QR de la lavandería.');
+        var s = snaps[1 + idx];
+        if (!s.exists) throw errUsuario('El equipo no existe.');
+        var eq = s.data();
+        if (eq.estado === 'fuera_servicio') throw errUsuario('Este equipo está fuera de servicio.');
+        if (eq.estado !== 'disponible') throw errUsuario('Otra unidad acaba de registrar este equipo. Elija otro equipo disponible.');
+        var k = norm(unidad);
+        var enUso = snaps.slice(1).filter(function (x) { return x.exists && x.data().estado === 'en_uso' && norm(x.data().unidad) === k; }).length;
+        var max = Number(cfg.maxPorUnidad) || 0;
+        if (max && enUso >= max) throw errUsuario('Su unidad ya tiene ' + enUso + ' equipo(s) en uso. El máximo simultáneo es ' + max + '.');
+        tx.update(refs[idx], {
+          estado: 'en_uso', unidad: unidad, usoId: usoId, inicio: inicio, codigoHash: hashCodigo(usoId, codigo), motivo: '',
+          actualizadoAt: inicio, actualizadoPor: 'Residente ' + unidad, origen: 'qr'
+        });
+        tx.set(db.collection(COL_USOS).doc(usoId), {
+          equipoId: eqId, tipo: eq.tipo, numero: eq.numero, unidad: unidad, inicio: inicio,
+          inicioServidor: firebase.firestore.FieldValue.serverTimestamp(),
+          fin: '', duracionMin: null, estado: 'en_uso', origen: 'qr', registradoPor: 'Residente ' + unidad,
+          liberadoPor: '', liberadoPorNombre: '', correoEstado: 'pendiente', correoIntento: 0
+        });
+      });
+    }).then(function () {
+      guardarMio(eqId, { usoId: usoId, unidad: unidad, codigo: codigo, inicio: inicio });
+      return { usoId: usoId, codigo: codigo };
+    });
+  }
+  function liberar(eqId, unidad, codigo) {
+    var ref = db.collection(COL_EQ).doc(eqId);
+    var cfgRef = db.collection(COL_CFG).doc('config');
+    var fin = nowIso();
+    return db.runTransaction(function (tx) {
+      return Promise.all([tx.get(cfgRef), tx.get(ref)]).then(function (snaps) {
+        var cfg = snaps[0].exists ? snaps[0].data() || {} : {};
+        if (!cfg.tokenPublico || cfg.tokenPublico !== token) throw errUsuario('El enlace ya no es válido. Escanee nuevamente el código QR de la lavandería.');
+        var eq = snaps[1].exists ? snaps[1].data() : null;
+        if (!eq || eq.estado !== 'en_uso') throw errUsuario('Este equipo ya fue liberado.');
+        if (norm(eq.unidad) !== norm(unidad)) throw errUsuario('Este equipo está registrado a nombre de otro departamento.');
+        if (eq.codigoHash !== hashCodigo(eq.usoId, codigo)) { var e = errUsuario('El código no coincide con el entregado al registrar el equipo.'); e.codigo = true; throw e; }
+        var ms = Date.parse(fin) - Date.parse(eq.inicio || fin);
+        tx.update(ref, {
+          estado: 'disponible', unidad: '', usoId: '', inicio: '', codigoHash: '', motivo: '',
+          actualizadoAt: fin, actualizadoPor: 'Residente ' + eq.unidad, origen: 'qr'
+        });
+        tx.set(db.collection(COL_USOS).doc(eq.usoId), {
+          fin: fin, duracionMin: isFinite(ms) ? Math.max(0, Math.round(ms / 60000)) : null, estado: 'finalizado',
+          liberadoPor: 'residente', liberadoPorNombre: 'Residente ' + eq.unidad
+        }, { merge: true });
+      });
+    }).then(function () { guardarMio(eqId, null); });
+  }
+
+  /* ---------- Render ---------- */
+  function pantalla(icono, titulo, texto) {
+    $('app').innerHTML = '<div class="estado-pantalla"><i class="fa-solid ' + icono + '" aria-hidden="true"></i><h2>' + esc(titulo) + '</h2><p>' + esc(texto) + '</p></div>';
+  }
+  function duracionMin(tipo) {
+    var v = Number(st.cfg && (tipo === 'secadora' ? st.cfg.duracionSecadoraMin : st.cfg.duracionLavadoraMin));
+    return v > 0 ? v : 45;
+  }
+  function tarjeta(eq) {
+    var estado = ESTADO_TXT[eq.estado] ? eq.estado : 'disponible';
+    var mio = mioVigente(eq);
+    var det, cta;
+    if (estado === 'en_uso') {
+      var t0 = Date.parse(eq.inicio);
+      var fin = t0 + duracionMin(eq.tipo) * 60000;
+      det = 'Depto <b>' + esc(eq.unidad) + '</b><br>' + (Date.now() > fin ? 'Hace ' + minutos(Date.now() - t0) : 'Fin aprox. ' + hora(new Date(fin).toISOString()));
+      cta = mio ? 'Toque para finalizar' : '¿Es suyo? Finalizar';
+    } else if (estado === 'fuera_servicio') {
+      det = 'No habilitado para su uso';
+      cta = '';
+    } else {
+      det = 'Libre para usar';
+      cta = 'Toque para registrar';
+    }
+    return '<button type="button" class="eq ' + estado + '" data-eq="' + esc(eq.id) + '"' + (estado === 'fuera_servicio' ? ' aria-disabled="true"' : '') +
+      ' aria-label="' + esc(label(eq) + ', ' + ESTADO_TXT[estado] + (estado === 'en_uso' ? ', departamento ' + eq.unidad : '')) + '">' +
+      (mio ? '<span class="mio">SUYO</span>' : '') +
+      '<span class="nom">' + esc(label(eq)) + '</span>' +
+      '<span class="maq"><span class="puerta"><i class="fa-solid ' + (estado === 'fuera_servicio' ? 'fa-triangle-exclamation' : TIPOS[eq.tipo].icon) + '" aria-hidden="true"></i></span></span>' +
+      '<span class="pill">' + ESTADO_TXT[estado] + '</span>' +
+      '<span class="det">' + det + '</span>' +
+      (cta ? '<span class="cta">' + cta + '</span>' : '') +
+      '</button>';
+  }
+  function render() {
+    if (!st.cargado.cfg || !st.cargado.eq) return;
+    if (!accesoValido()) {
+      pantalla('fa-qrcode', 'Enlace no válido', 'Escanee el código QR instalado en la lavandería o solicite el enlace actualizado en conserjería.');
+      return;
+    }
+    if (st.cfg.nombreEdificio) $('edificio').textContent = st.cfg.nombreEdificio + ' · disponibilidad en tiempo real';
+    var lista = IDS.map(function (id) { return st.equipos[id]; }).filter(Boolean);
+    if (!lista.length) { pantalla('fa-screwdriver-wrench', 'Lavandería en preparación', 'Conserjería aún no habilita los equipos.'); return; }
+    var c = { disponible: 0, en_uso: 0, fuera_servicio: 0 };
+    lista.forEach(function (e) { if (c[e.estado] != null) c[e.estado]++; });
+    var mios = lista.filter(mioVigente);
+    var html =
+      '<section class="resumen" aria-label="Resumen">' +
+      '<div class="chip ok"><b>' + c.disponible + '</b><span>Disponibles</span></div>' +
+      '<div class="chip uso"><b>' + c.en_uso + '</b><span>En uso</span></div>' +
+      '<div class="chip off"><b>' + c.fuera_servicio + '</b><span>Fuera de servicio</span></div></section>' +
+      '<section class="mios" style="display:' + (mios.length ? 'block' : 'none') + '"><h2><i class="fa-solid fa-user-check" aria-hidden="true"></i> Sus equipos en uso</h2>' +
+      mios.map(function (e) {
+        return '<div class="mios-row"><span><strong>' + esc(label(e)) + '</strong> · Depto ' + esc(e.unidad) + ' · desde ' + hora(e.inicio) + '</span>' +
+          '<button type="button" class="btn btn-p azul btn-mini" data-eq="' + esc(e.id) + '">Finalizar</button></div>';
+      }).join('') + '</section>';
+    ['lavadora', 'secadora'].forEach(function (t) {
+      html += '<h3 class="grupo"><i class="fa-solid ' + TIPOS[t].icon + '" aria-hidden="true"></i> ' + TIPOS[t].plural + '</h3><div class="grid">' +
+        lista.filter(function (e) { return e.tipo === t; }).sort(function (a, b) { return a.numero - b.numero; }).map(tarjeta).join('') + '</div>';
+    });
+    html += '<div class="legend"><span class="l1">Disponible</span><span class="l2">En uso</span><span class="l3">Fuera de servicio</span></div>' +
+      '<p class="nota">Esta pantalla se actualiza sola. Solo puede finalizar los equipos registrados por su departamento.</p>';
+    $('app').innerHTML = html;
+  }
+
+  /* ---------- Hoja modal ---------- */
+  function abrirHoja(html) {
+    $('hoja').innerHTML = html;
+    $('velo').classList.add('open');
+    var inp = $('hoja').querySelector('input');
+    if (inp) setTimeout(function () { inp.focus(); }, 60);
+  }
+  function cerrarHoja() { $('velo').classList.remove('open'); $('hoja').innerHTML = ''; }
+  function ocupado(btn, si, txt) { if (!btn) return; btn.disabled = si; if (txt) btn.textContent = txt; }
+
+  function flujoRegistrar(eq) {
+    abrirHoja(
+      '<h2 id="hojaTitulo">Registrar ' + esc(label(eq)) + '</h2>' +
+      '<p>Ingrese el número de su departamento.</p>' +
+      '<form id="fReg" autocomplete="off"><label for="iDep">Departamento</label>' +
+      '<input id="iDep" inputmode="numeric" maxlength="8" placeholder="Ej: 1914" required>' +
+      '<p class="err" id="eReg"></p>' +
+      '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p">Continuar</button></div></form>'
+    );
+    $('fReg').onsubmit = function (ev) {
+      ev.preventDefault();
+      var raw = $('iDep').value.trim();
+      var unidad = buscarUnidad(raw);
+      if (!raw) { $('eReg').textContent = 'Ingrese el número de departamento.'; return; }
+      if (!(st.cfg.unidades || []).length) { $('eReg').textContent = 'El sistema aún no tiene el listado de unidades. Consulte en conserjería.'; return; }
+      if (!unidad) { $('eReg').textContent = 'El departamento ' + raw + ' no existe en el edificio.'; return; }
+      if (unidadBloqueada(unidad)) { $('eReg').textContent = 'Su unidad no está habilitada para usar la lavandería. Consulte en conserjería.'; return; }
+      confirmarRegistro(eq, unidad);
+    };
+  }
+  function confirmarRegistro(eq, unidad) {
+    abrirHoja(
+      '<h2 id="hojaTitulo">Confirmar registro</h2>' +
+      '<div class="resumen-conf">Equipo: <strong>' + esc(label(eq)) + '</strong><br>Departamento: <strong>' + esc(unidad) + '</strong><br>Fecha: ' + fechaHora(nowIso()) + '</div>' +
+      '<p>Se enviará una confirmación al correo registrado de la unidad.</p>' +
+      '<p class="err" id="eConf"></p>' +
+      '<div class="botones"><button type="button" class="btn btn-s" id="bVolver">Volver</button><button type="button" class="btn btn-p" id="bConf">Confirmar</button></div>'
+    );
+    $('bVolver').onclick = function () { flujoRegistrar(eq); };
+    $('bConf').onclick = function () {
+      var b = $('bConf');
+      ocupado(b, true, 'Registrando…');
+      registrar(eq.id, unidad).then(function (r) {
+        abrirHoja(
+          '<div class="ok-ic"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>' +
+          '<h2 id="hojaTitulo" style="text-align:center">' + esc(label(eq)) + ' registrada</h2>' +
+          '<p style="text-align:center">Quedó a nombre del depto <strong>' + esc(unidad) + '</strong>. Este teléfono recordará su registro para finalizarlo con un toque.</p>' +
+          '<p style="text-align:center;margin-bottom:0">Si finaliza desde otro dispositivo, use este código:</p>' +
+          '<div class="codigo">' + esc(r.codigo) + '</div>' +
+          '<div class="botones"><button type="button" class="btn btn-p" data-cerrar>Listo</button></div>'
+        );
+      }).catch(function (e) {
+        console.warn('[lavandería]', e);
+        ocupado(b, false, 'Confirmar');
+        $('eConf').textContent = e && e.lavUsuario ? e.message : 'No se pudo registrar. Revise su conexión e intente nuevamente.';
+      });
+    };
+  }
+  function flujoLiberar(eq) {
+    var mio = mioVigente(eq);
+    if (mio) {
+      abrirHoja(
+        '<h2 id="hojaTitulo">Finalizar uso</h2>' +
+        '<div class="resumen-conf">Equipo: <strong>' + esc(label(eq)) + '</strong><br>Departamento: <strong>' + esc(eq.unidad) + '</strong><br>Desde: ' + hora(eq.inicio) + ' (' + minutos(Date.now() - Date.parse(eq.inicio)) + ')</div>' +
+        '<p>¿Ya retiró su ropa? El equipo quedará disponible para otros residentes.</p>' +
+        '<p class="err" id="eLib"></p>' +
+        '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="button" class="btn btn-p azul" id="bLib">Finalizar uso</button></div>'
+      );
+      $('bLib').onclick = function () { ejecutarLiberar(eq, mio.unidad, mio.codigo, $('bLib'), $('eLib')); };
+      return;
+    }
+    abrirHoja(
+      '<h2 id="hojaTitulo">' + esc(label(eq)) + ' en uso</h2>' +
+      '<p>Registrada por el depto <strong>' + esc(eq.unidad) + '</strong> desde las ' + hora(eq.inicio) + '. Si es suya, ingrese su departamento y el código que recibió al registrarla.</p>' +
+      '<form id="fLib" autocomplete="off"><label for="iDepL">Departamento</label><input id="iDepL" inputmode="numeric" maxlength="8" required>' +
+      '<label for="iCod">Código de 4 dígitos</label><input id="iCod" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required>' +
+      '<p class="err" id="eLib"></p>' +
+      '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p azul" id="bLib">Finalizar uso</button></div></form>' +
+      '<p style="margin:12px 0 0;font-size:0.8rem">¿No tiene el código? Conserjería puede liberar el equipo por usted.</p>'
+    );
+    $('fLib').onsubmit = function (ev) {
+      ev.preventDefault();
+      var espera = bloqueoIntentos();
+      if (espera) { $('eLib').textContent = 'Demasiados intentos. Espere ' + espera + ' s.'; return; }
+      var dep = $('iDepL').value.trim();
+      var cod = $('iCod').value.trim();
+      if (norm(dep) !== norm(eq.unidad)) { $('eLib').textContent = 'Este equipo está registrado a nombre de otro departamento. No puede finalizarlo.'; return; }
+      if (!/^\d{4}$/.test(cod)) { $('eLib').textContent = 'El código debe tener 4 dígitos.'; return; }
+      ejecutarLiberar(eq, dep, cod, $('bLib'), $('eLib'));
+    };
+  }
+  function ejecutarLiberar(eq, unidad, codigo, btn, errEl) {
+    ocupado(btn, true, 'Finalizando…');
+    liberar(eq.id, unidad, codigo).then(function () {
+      cerrarHoja();
+      toast(label(eq) + ' quedó disponible. ¡Gracias!');
+    }).catch(function (e) {
+      console.warn('[lavandería]', e);
+      if (e && e.codigo) sumarIntentoFallido();
+      if (e && e.lavUsuario && /ya fue liberado/.test(e.message)) guardarMio(eq.id, null);
+      ocupado(btn, false, 'Finalizar uso');
+      errEl.textContent = e && e.lavUsuario ? e.message : 'No se pudo finalizar. Revise su conexión e intente nuevamente.';
+    });
+  }
+
+  document.addEventListener('click', function (ev) {
+    if (ev.target.closest('[data-cerrar]') || ev.target === $('velo')) { cerrarHoja(); return; }
+    var b = ev.target.closest('[data-eq]');
+    if (!b || !accesoValido()) return;
+    var eq = st.equipos[b.getAttribute('data-eq')];
+    if (!eq) return;
+    if (eq.estado === 'disponible') flujoRegistrar(eq);
+    else if (eq.estado === 'en_uso') flujoLiberar(eq);
+    else toast(label(eq) + ' está fuera de servicio' + (eq.motivo ? ': ' + eq.motivo : '') + '.');
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') cerrarHoja(); });
+
+  /* ---------- Tiempo real ---------- */
+  function estadoConexion(enVivo) {
+    var l = $('live');
+    l.classList.toggle('on', !!enVivo);
+    l.textContent = enVivo ? 'En vivo' : 'Sin conexión';
+  }
+  if (!token) {
+    st.cargado.cfg = st.cargado.eq = true;
+    pantalla('fa-qrcode', 'Enlace no válido', 'Escanee el código QR instalado en la lavandería o solicite el enlace en conserjería.');
+    estadoConexion(false);
+    return;
+  }
+  db.collection(COL_CFG).doc('config').onSnapshot(function (s) {
+    st.cfg = s.exists ? s.data() || {} : {};
+    st.cargado.cfg = true;
+    render();
+  }, function (e) {
+    console.warn('[lavandería] config', e);
+    pantalla('fa-wifi', 'No se pudo conectar', 'Revise su conexión a internet y vuelva a cargar la página.');
+  });
+  db.collection(COL_EQ).onSnapshot({ includeMetadataChanges: true }, function (qs) {
+    var eqs = {};
+    qs.forEach(function (d) { eqs[d.id] = Object.assign({ id: d.id }, d.data()); });
+    st.equipos = eqs;
+    st.cargado.eq = true;
+    estadoConexion(!qs.metadata.fromCache);
+    render();
+  }, function (e) {
+    console.warn('[lavandería] equipos', e);
+    estadoConexion(false);
+  });
+  window.addEventListener('offline', function () { estadoConexion(false); });
+  setInterval(render, 30000);
+})();
+</script>
+</body>
+</html>
