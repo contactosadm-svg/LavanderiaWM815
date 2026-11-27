@@ -529,6 +529,7 @@
     }
     .normas-body .n-dot.ok { background: #22c55e; }
     .normas-body .n-dot.uso { background: #3b82f6; }
+    .normas-body .n-dot.tarde { background: #f97316; }
     .normas-body .n-dot.off { background: #ef4444; }
     .normas-body .n-nota {
       margin: 0.45rem 0; padding: 0.55rem 0.7rem; border-radius: 10px;
@@ -910,6 +911,7 @@
       '<p>Cada equipo tendrá un indicador de estado:</p><ul>' +
       '<li><span class="n-dot ok" aria-hidden="true"></span>Verde: Disponible.</li>' +
       '<li><span class="n-dot uso" aria-hidden="true"></span>Azul: En uso.</li>' +
+      '<li><span class="n-dot tarde" aria-hidden="true"></span>Naranja: Tiempo vencido (el ciclo estimado ya terminó; retire su ropa).</li>' +
       '<li><span class="n-dot off" aria-hidden="true"></span>Rojo: Fuera de servicio.</li></ul>' +
       '<p>Para registrar un equipo disponible, deberá seleccionarlo, ingresar el número de departamento y confirmar la operación. Una vez realizado el registro, el equipo cambiará automáticamente a estado «En uso» y quedará asociado a la unidad correspondiente.</p></div>' +
       '<div class="n-block"><h3>2. Entrega y devolución de llave</h3>' +
@@ -921,26 +923,31 @@
       '<p>Antes de abandonar la lavandería, asegúrese de dejar todas las luces apagadas y el espacio en buenas condiciones.</p></div>' +
       '<div class="n-block"><h3>5. Respetar los tiempos de utilización</h3>' +
       '<p>Cada residente deberá estar atento a los tiempos de lavado y secado de sus prendas. La aplicación permite visualizar el tiempo estimado de funcionamiento de cada equipo, facilitando la organización y el retiro oportuno de las prendas.</p>' +
-      '<p>Cuando un equipo supera el tiempo estimado del ciclo, aparece en color naranja en el mapa («Tiempo vencido»). Es responsabilidad de cada usuario retirar sus pertenencias a la brevedad.</p></div>' +
-      '<div class="n-block"><h3>6. Avisos y seguimiento desde conserjería</h3>' +
-      '<p>El sistema enviará un aviso al correo de la unidad unos minutos antes del fin estimado del ciclo, y otra advertencia si el tiempo ya se venció: su ropa podrá ser retirada para dar facilidad a otro residente.</p>' +
+      '<p>Cuando un equipo supera el tiempo estimado del ciclo, el mapa lo muestra en <strong>naranja</strong> con la etiqueta «Tiempo vencido». Es responsabilidad de cada usuario retirar sus pertenencias de inmediato y finalizar el uso con departamento y código.</p></div>' +
+      '<div class="n-block"><h3>6. Avisos por correo y seguimiento</h3>' +
+      '<p>El sistema enviará correos a la unidad con el <strong>código de 4 dígitos</strong> del equipo en cada notificación:</p><ul>' +
+      '<li>Confirmación al registrar el uso.</li>' +
+      '<li>Aviso unos minutos antes del fin estimado del ciclo.</li>' +
+      '<li>Advertencia de <strong>tiempo vencido</strong>: debe retirar su ropa; si no lo hace, conserjería podrá retirarla para dar facilidad a otro residente.</li></ul>' +
       '<p>Además, el personal de conserjería podrá contactar al residente por citófono para solicitar el retiro de las prendas.</p></div>' +
       '<div class="n-block"><h3>7. Retiro de prendas no retiradas</h3>' +
-      '<p>Si las prendas permanecen dentro de las lavadoras o secadoras una vez finalizado el tiempo de utilización, el personal de conserjería estará autorizado para retirarlas, con el propósito de permitir que otros residentes puedan utilizar los equipos.</p>' +
+      '<p>Si las prendas permanecen en lavadoras o secadoras con tiempo vencido (estado naranja), el personal de conserjería estará autorizado para retirarlas y liberar el equipo, con el propósito de permitir que otros residentes puedan utilizarlo.</p>' +
       '<p>Esta medida busca evitar la ocupación innecesaria de las máquinas y garantizar un uso equitativo de este espacio común.</p></div>' +
       '<div class="n-block"><h3>Funciones digitales disponibles</h3>' +
       '<p>Además del protocolo de uso, la aplicación ofrece estas herramientas para los residentes.</p></div>' +
       '<div class="n-block"><h3>8. Consulta de disponibilidad en tiempo real</h3>' +
       '<p>Mediante el código QR o enlace de acceso, cada residente podrá consultar:</p><ul>' +
-      '<li>Lavadoras y secadoras disponibles.</li><li>Equipos actualmente en uso.</li><li>Equipos fuera de servicio.</li>' +
-      '<li>Cantidad de equipos disponibles en cada momento.</li><li>Tiempo estimado de finalización de los ciclos.</li></ul>' +
+      '<li>Lavadoras y secadoras disponibles (verde).</li>' +
+      '<li>Equipos en uso (azul) y con tiempo vencido (naranja).</li>' +
+      '<li>Equipos fuera de servicio (rojo).</li>' +
+      '<li>Cantidad de equipos por estado y tiempo estimado de finalización.</li></ul>' +
       '<p>La información se actualizará automáticamente, sin necesidad de recargar la página.</p></div>' +
       '<div class="n-block"><h3>9. Registro y confirmación de utilización</h3>' +
       '<p>Al seleccionar un equipo disponible, el residente deberá ingresar su número de departamento y confirmar el registro. La aplicación verificará que la unidad exista, que se encuentre habilitada y que no haya superado el límite de equipos simultáneos permitido.</p>' +
-      '<p>Una vez confirmado: el equipo quedará asociado al departamento, su estado cambiará a azul, se generará un código personal de 4 dígitos y se enviará una confirmación al correo de la unidad.</p>' +
-      '<p class="n-nota">Importante: el código de 4 dígitos deberá conservarse, ya que será solicitado para liberar el equipo.</p></div>' +
+      '<p>Una vez confirmado: el equipo quedará asociado al departamento, su estado cambiará a azul, se generará un código personal de 4 dígitos y se enviará una confirmación al correo de la unidad (incluyendo ese código).</p>' +
+      '<p class="n-nota">Importante: el código de 4 dígitos deberá conservarse, ya que será solicitado para liberar el equipo y también se reitera en los avisos de fin de ciclo y tiempo vencido.</p></div>' +
       '<div class="n-block"><h3>10. Finalización del uso y liberación del equipo</h3>' +
-      '<p>Una vez terminado el ciclo, el residente deberá seleccionar el equipo en el mapa e ingresar el número de departamento y el código de seguridad de 4 dígitos. Si los datos coinciden, el sistema finalizará el registro y dejará el equipo disponible.</p>' +
+      '<p>Una vez terminado el ciclo —o si el equipo aparece en naranja («Tiempo vencido»)—, el residente deberá seleccionarlo en el mapa e ingresar el número de departamento y el código de seguridad de 4 dígitos. Si los datos coinciden, el sistema finalizará el registro y dejará el equipo disponible.</p>' +
       '<p>Por seguridad, no será posible liberar equipos registrados por otros departamentos.</p></div>' +
       '<div class="n-block"><h3>11. Reporte de problemas o fallas</h3>' +
       '<p>Si detecta un inconveniente, podrá reportarlo desde la aplicación indicando el equipo, el motivo y un detalle opcional. El reporte quedará en conserjería y se enviará un correo de respaldo a la unidad.</p>' +
