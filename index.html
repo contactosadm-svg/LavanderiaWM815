@@ -259,6 +259,7 @@
         tx.set(db.collection(COL_USOS).doc(usoId), {
           equipoId: eqId, tipo: eq.tipo, numero: eq.numero, unidad: unidad, inicio: inicio,
           inicioServidor: firebase.firestore.FieldValue.serverTimestamp(),
+          codigo: codigo,
           fin: '', duracionMin: null, estado: 'en_uso', origen: 'qr', registradoPor: 'Residente ' + unidad,
           liberadoPor: '', liberadoPorNombre: '', correoEstado: 'pendiente', correoIntento: 0
         });
@@ -405,7 +406,7 @@
           '<div class="ok-ic"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>' +
           '<h2 id="hojaTitulo" style="text-align:center">' + esc(label(eq)) + ' registrada</h2>' +
           '<p style="text-align:center">Quedó a nombre del depto <strong>' + esc(unidad) + '</strong>. Este teléfono recordará su registro para finalizarlo con un toque.</p>' +
-          '<p style="text-align:center;margin-bottom:0">Si finaliza desde otro dispositivo, use este código:</p>' +
+          '<p style="text-align:center;margin-bottom:0">Su código para finalizar el uso (también se envía a su correo y está disponible en conserjería):</p>' +
           '<div class="codigo">' + esc(r.codigo) + '</div>' +
           '<div class="botones"><button type="button" class="btn btn-p" data-cerrar>Listo</button></div>'
         );
@@ -436,7 +437,7 @@
       '<label for="iCod">Código de 4 dígitos</label><input id="iCod" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required>' +
       '<p class="err" id="eLib"></p>' +
       '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p azul" id="bLib">Finalizar uso</button></div></form>' +
-      '<p style="margin:12px 0 0;font-size:0.8rem">¿No tiene el código? Conserjería puede liberar el equipo por usted.</p>'
+      '<p style="margin:12px 0 0;font-size:0.8rem">El código está en el correo de confirmación. También puede pedirlo en conserjería.</p>'
     );
     $('fLib').onsubmit = function (ev) {
       ev.preventDefault();
