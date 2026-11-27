@@ -48,7 +48,28 @@
     .wrap {
       max-width: 980px; margin: 0 auto;
       padding: max(0.75rem, env(safe-area-inset-top)) clamp(0.65rem, 1.2vw, 1.35rem) calc(1.4rem + env(safe-area-inset-bottom));
+      opacity: 0;
     }
+    .wrap.is-ready { animation: lavWrapIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    @keyframes lavWrapIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .lav-rise {
+      opacity: 0; transform: translateY(12px);
+      animation: lavRise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .lav-rise-1 { animation-delay: 0.05s; }
+    .lav-rise-2 { animation-delay: 0.14s; }
+    .lav-rise-3 { animation-delay: 0.22s; }
+    .lav-rise-4 { animation-delay: 0.3s; }
+    .lav-rise-5 { animation-delay: 0.38s; }
+    @keyframes lavRise { to { opacity: 1; transform: translateY(0); } }
+    .eq.lav-eq-in {
+      opacity: 0; transform: translateY(10px) scale(0.97);
+      animation: lavEqIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes lavEqIn { to { opacity: 1; transform: translateY(0) scale(1); } }
     .brand {
       display: flex; justify-content: center; margin: 0.15rem 0 0.55rem;
     }
@@ -57,6 +78,52 @@
       filter: brightness(0) invert(1);
     }
     .page-header { margin: 0 0 0.65rem; text-align: center; }
+    /* Animación de entrada */
+    .lav-entrada {
+      position: fixed; inset: 0; z-index: 20000; display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      background:
+        radial-gradient(900px 420px at 50% 20%, color-mix(in srgb, #74bd20 22%, transparent), transparent 60%),
+        radial-gradient(700px 380px at 80% 90%, color-mix(in srgb, #38bdf8 12%, transparent), transparent 55%),
+        #121820;
+    }
+    .lav-entrada.is-out { animation: lavEntradaOut 0.55s ease forwards; pointer-events: none; }
+    @keyframes lavEntradaOut {
+      to { opacity: 0; transform: scale(1.03); }
+    }
+    .lav-entrada-card { text-align: center; max-width: 18rem; }
+    .lav-entrada-face {
+      width: 5.2rem; height: 5.2rem; margin: 0 auto 1rem;
+      animation: lavEntradaPop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both, miniFlota 1.6s ease-in-out 0.7s infinite;
+    }
+    .lav-entrada-face svg { width: 4.6rem; height: 4.6rem; }
+    @keyframes lavEntradaPop {
+      from { opacity: 0; transform: scale(0.6) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .lav-entrada-kicker {
+      margin: 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #9fe04a; opacity: 0; animation: lavRise 0.5s ease 0.25s forwards;
+    }
+    .lav-entrada-card h2 {
+      margin: 0.45rem 0 0; font-family: "Syne", system-ui, sans-serif; font-size: 1.45rem; font-weight: 800;
+      letter-spacing: -0.03em; color: #f8fafc; opacity: 0; animation: lavRise 0.55s ease 0.38s forwards;
+    }
+    .lav-entrada-card p {
+      margin: 0.4rem 0 0; font-size: 0.9rem; color: #9eb0c8; line-height: 1.4;
+      opacity: 0; animation: lavRise 0.55s ease 0.5s forwards;
+    }
+    .lav-entrada-bar {
+      position: relative; width: min(11rem, 55vw); height: 4px; margin: 1.15rem auto 0;
+      border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.1);
+      opacity: 0; animation: lavRise 0.45s ease 0.62s forwards;
+    }
+    .lav-entrada-bar span {
+      position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit;
+      background: linear-gradient(90deg, #9fe04a, #22d3ee);
+      animation: lavEntradaBar 1.35s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+    }
+    @keyframes lavEntradaBar { to { width: 100%; } }
     .page-header h1 {
       margin: 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
       font-size: 1.28rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: var(--text-main);
@@ -385,13 +452,26 @@
       .eq.en_uso .puerta i, .hoja, .modulo-carga, .modulo-carga.is-out,
       .mini-carga::before, .mini-arturito, .mini-ojo, .mini-antena, .mini-ficha, .artu-cara,
       .carga-puntos i, .modulo-carga .carga-barra span, .normas-velo, .normas-velo.is-out,
-      .normas-panel, .normas-body .n-block { animation: none !important; }
-      .normas-body .n-block { opacity: 1; transform: none; }
+      .normas-panel, .normas-body .n-block, .lav-entrada, .lav-entrada.is-out, .lav-entrada-face,
+      .lav-entrada-kicker, .lav-entrada-card h2, .lav-entrada-card p, .lav-entrada-bar, .lav-entrada-bar span,
+      .wrap.is-ready, .lav-rise, .eq.lav-eq-in { animation: none !important; }
+      .normas-body .n-block, .wrap, .lav-rise, .eq.lav-eq-in,
+      .lav-entrada-kicker, .lav-entrada-card h2, .lav-entrada-card p, .lav-entrada-bar { opacity: 1; transform: none; }
+      .lav-entrada-bar span { width: 100%; }
     }
   </style>
 </head>
 <body>
-<div class="wrap">
+<div class="lav-entrada" id="lavEntrada" role="status" aria-live="polite" aria-label="Cargando lavandería">
+  <div class="lav-entrada-card">
+    <span class="artu-cara lav-entrada-face" id="lavEntradaFace" aria-hidden="true"></span>
+    <p class="lav-entrada-kicker">Edificio WM815</p>
+    <h2>Control de lavandería</h2>
+    <p>Arturito prepara el mapa en tiempo real…</p>
+    <div class="lav-entrada-bar" aria-hidden="true"><span></span></div>
+  </div>
+</div>
+<div class="wrap" id="lavWrap">
   <div class="brand" aria-hidden="true">
     <img src="https://img.mailinblue.com/8323725/images/content_library/original/6844749040dd0f16c5341248.png" alt="" width="64" height="64" decoding="async">
   </div>
@@ -449,7 +529,7 @@
   var ESTADO_TXT = { disponible: 'Disponible', en_uso: 'En uso', fuera_servicio: 'Fuera de servicio' };
 
   var token = new URLSearchParams(location.search).get('k') || '';
-  var st = { cfg: null, equipos: {}, cargado: { cfg: false, eq: false } };
+  var st = { cfg: null, equipos: {}, cargado: { cfg: false, eq: false }, entradaHecha: false, entradaEnCurso: false };
 
   var app = firebase.initializeApp(FIREBASE);
   var db = firebase.firestore(app);
@@ -527,6 +607,71 @@
       '<ellipse class="mini-ojo" cx="38" cy="31" rx="3.1" ry="3.1" fill="#7FBA02"/>' +
       '<path d="M26 39 Q32 44 38 39" stroke="#7FBA02" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
       '</svg>';
+  }
+  (function prepararEntradaVisual() {
+    var face = $('lavEntradaFace');
+    if (face) face.innerHTML = arturitoCaraSvg();
+  })();
+  function preferReducedMotion() {
+    try { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) { return false; }
+  }
+  function animarContenidoEntrada() {
+    var wrap = $('lavWrap') || document.querySelector('.wrap');
+    if (!wrap) return;
+    wrap.classList.add('is-ready');
+    var brand = wrap.querySelector('.brand');
+    var header = wrap.querySelector('.page-header');
+    var foot = wrap.querySelector('.foot');
+    if (brand) brand.classList.add('lav-rise', 'lav-rise-1');
+    if (header) header.classList.add('lav-rise', 'lav-rise-2');
+    var app = $('app');
+    if (!app) return;
+    var kids = app.children;
+    for (var i = 0; i < kids.length; i++) {
+      kids[i].classList.add('lav-rise', 'lav-rise-' + Math.min(i + 3, 5));
+    }
+    var eqs = app.querySelectorAll('.eq');
+    for (var j = 0; j < eqs.length; j++) {
+      eqs[j].classList.add('lav-eq-in');
+      eqs[j].style.animationDelay = (0.42 + Math.min(j, 9) * 0.045) + 's';
+    }
+    if (foot) foot.classList.add('lav-rise', 'lav-rise-5');
+  }
+  function cerrarEntradaApp(cb) {
+    var entrada = $('lavEntrada');
+    if (!entrada || entrada.hidden) {
+      if (cb) cb();
+      return;
+    }
+    if (preferReducedMotion()) {
+      entrada.hidden = true;
+      entrada.style.display = 'none';
+      if (cb) cb();
+      return;
+    }
+    entrada.classList.add('is-out');
+    setTimeout(function () {
+      entrada.hidden = true;
+      entrada.style.display = 'none';
+      if (cb) cb();
+    }, 520);
+  }
+  function presentarEntradaApp() {
+    if (st.entradaHecha || st.entradaEnCurso) return;
+    st.entradaEnCurso = true;
+    var minMs = preferReducedMotion() ? 0 : 1650;
+    var started = Date.now();
+    function finish() {
+      var wait = Math.max(0, minMs - (Date.now() - started));
+      setTimeout(function () {
+        cerrarEntradaApp(function () {
+          st.entradaHecha = true;
+          st.entradaEnCurso = false;
+          animarContenidoEntrada();
+        });
+      }, wait);
+    }
+    finish();
   }
   function arturitoHtml(titulo, sub, detalle) {
     return '<div class="mini-carga" aria-hidden="true">' +
@@ -849,11 +994,16 @@
     if (!st.cargado.cfg || !st.cargado.eq) return;
     if (!accesoValido()) {
       pantalla('fa-qrcode', 'Enlace no válido', 'Escanee el código QR instalado en la lavandería o solicite el enlace actualizado en conserjería.');
+      presentarEntradaApp();
       return;
     }
     $('edificio').textContent = (st.cfg.nombreEdificio || 'Edificio WM 815') + ' · disponibilidad en tiempo real';
     var lista = IDS.map(function (id) { return st.equipos[id]; }).filter(Boolean);
-    if (!lista.length) { pantalla('fa-screwdriver-wrench', 'Lavandería en preparación', 'Conserjería aún no habilita los equipos.'); return; }
+    if (!lista.length) {
+      pantalla('fa-screwdriver-wrench', 'Lavandería en preparación', 'Conserjería aún no habilita los equipos.');
+      presentarEntradaApp();
+      return;
+    }
     var c = { disponible: 0, en_uso: 0, fuera_servicio: 0 };
     lista.forEach(function (e) { if (c[e.estado] != null) c[e.estado]++; });
     var mios = lista.filter(mioVigente);
@@ -862,6 +1012,7 @@
       mapa += '<h3 class="grupo"><i class="fa-solid ' + TIPOS[t].icon + '" aria-hidden="true"></i> ' + TIPOS[t].plural + '</h3><div class="grid">' +
         lista.filter(function (e) { return e.tipo === t; }).sort(function (a, b) { return a.numero - b.numero; }).map(tarjeta).join('') + '</div>';
     });
+    var primera = !st.entradaHecha;
     $('app').innerHTML =
       '<section class="resumen" aria-label="Resumen">' +
       '<div class="chip ok"><b>' + c.disponible + '</b><span>Disponibles</span></div>' +
@@ -882,6 +1033,11 @@
       '<p class="nota">Esta pantalla se actualiza sola. Solo puede finalizar los equipos registrados por su departamento.</p>' +
       '<p class="nota-accion"><button type="button" class="link-accion" data-abrir-reporte><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con un equipo</button></p>' +
       '</div></section>';
+    if (primera) presentarEntradaApp();
+    else {
+      var wrap = $('lavWrap');
+      if (wrap && !wrap.classList.contains('is-ready')) wrap.classList.add('is-ready');
+    }
   }
 
   /* ---------- Hoja modal ---------- */
@@ -1110,6 +1266,7 @@
   if (!token) {
     st.cargado.cfg = st.cargado.eq = true;
     pantalla('fa-qrcode', 'Enlace no válido', 'Escanee el código QR instalado en la lavandería o solicite el enlace en conserjería.');
+    presentarEntradaApp();
     return;
   }
   db.collection(COL_CFG).doc('config').onSnapshot(function (s) {
