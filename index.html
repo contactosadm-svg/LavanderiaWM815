@@ -555,8 +555,11 @@
         if (!cfg.tokenPublico || cfg.tokenPublico !== token) throw errUsuario('El enlace ya no es válido. Escanee nuevamente el código QR de la lavandería.');
         var eq = snaps[1].exists ? snaps[1].data() : null;
         if (!eq || eq.estado !== 'en_uso') throw errUsuario('Este equipo ya fue liberado.');
-        if (norm(eq.unidad) !== norm(unidad)) throw errUsuario('Este equipo está registrado a nombre de otro departamento.');
-        if (eq.codigoHash !== hashCodigo(eq.usoId, codigo)) { var e = errUsuario('El código no coincide con el entregado al registrar el equipo.'); e.codigo = true; throw e; }
+        if (norm(eq.unidad) !== norm(unidad) || eq.codigoHash !== hashCodigo(eq.usoId, codigo)) {
+          var eAuth = errUsuario('Departamento o código incorrectos. Revise el correo de confirmación o consulte en conserjería.');
+          eAuth.codigo = true;
+          throw eAuth;
+        }
         var ms = Date.parse(fin) - Date.parse(eq.inicio || fin);
         tx.update(ref, {
           estado: 'disponible', unidad: '', usoId: '', inicio: '', codigoHash: '', motivo: '',
@@ -825,37 +828,29 @@
     };
   }
   function flujoLiberar(eq) {
-    var mio = mioVigente(eq);
-    if (mio) {
-      abrirHoja(
-        '<h2 id="hojaTitulo">Finalizar uso</h2>' +
-        '<div class="resumen-conf">Equipo: <strong>' + esc(label(eq)) + '</strong><br>Departamento: <strong>' + esc(eq.unidad) + '</strong><br>Desde: ' + hora(eq.inicio) + ' (' + minutos(Date.now() - Date.parse(eq.inicio)) + ')</div>' +
-        '<p>¿Ya retiró su ropa? El equipo quedará disponible para otros residentes.</p>' +
-        '<p class="err" id="eLib"></p>' +
-        '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="button" class="btn btn-p azul" id="bLib">Finalizar uso</button></div>' +
-        '<button type="button" class="link-accion" data-reportar="' + esc(eq.id) + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con este equipo</button>'
-      );
-      $('bLib').onclick = function () { ejecutarLiberar(eq, mio.unidad, mio.codigo, $('bLib'), $('eLib')); };
-      return;
-    }
     abrirHoja(
-      '<h2 id="hojaTitulo">' + esc(label(eq)) + ' en uso</h2>' +
-      '<p>Este equipo está en uso desde las ' + hora(eq.inicio) + '. Si es suyo, ingrese su departamento y el código que recibió al registrarla.</p>' +
-      '<form id="fLib" autocomplete="off"><label for="iDepL">Departamento</label><input id="iDepL" inputmode="numeric" maxlength="8" required>' +
-      '<label for="iCod">Código de 4 dígitos</label><input id="iCod" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required>' +
+      '<h2 id="hojaTitulo">Finalizar ' + esc(label(eq)) + '</h2>' +
+      '<p>Por privacidad no mostramos datos del residente. Para liberar el equipo deben coincidir el departamento y el código con los del registro.</p>' +
+      '<form id="fLib" autocomplete="off">' +
+      '<label for="iDepL">Departamento</label>' +
+      '<input id="iDepL" inputmode="numeric" maxlength="8" placeholder="Ej: 1914" required>' +
+      '<label for="iCod">Código de 4 dígitos</label>' +
+      '<input id="iCod" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••" required>' +
       '<p class="err" id="eLib"></p>' +
+      '<p style="margin:0.65rem 0 0;font-size:0.8rem;line-height:1.4">Ingrese el mismo departamento con el que registró el equipo y el código de 4 dígitos enviado a su correo. Ambos deben coincidir para dar la salida.</p>' +
+      '<p style="margin:0.35rem 0 0;font-size:0.8rem;line-height:1.4">Si no tiene el código, solicítelo en conserjería. Al finalizar, el equipo quedará disponible.</p>' +
       '<div class="botones"><button type="button" class="btn btn-s" data-cerrar>Cancelar</button><button type="submit" class="btn btn-p azul" id="bLib">Finalizar uso</button></div></form>' +
-      '<button type="button" class="link-accion" data-reportar="' + esc(eq.id) + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con este equipo</button>' +
-      '<p style="margin:12px 0 0;font-size:0.8rem">El código está en el correo de confirmación. También puede pedirlo en conserjería.</p>'
+      '<button type="button" class="link-accion" data-reportar="' + esc(eq.id) + '"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Reportar problema con este equipo</button>'
     );
     $('fLib').onsubmit = function (ev) {
       ev.preventDefault();
       var espera = bloqueoIntentos();
       if (espera) { $('eLib').textContent = 'Demasiados intentos. Espere ' + espera + ' s.'; return; }
-      var dep = $('iDepL').value.trim();
+      var depRaw = $('iDepL').value.trim();
       var cod = $('iCod').value.trim();
-      if (norm(dep) !== norm(eq.unidad)) { $('eLib').textContent = 'Este equipo está registrado a nombre de otro departamento. No puede finalizarlo.'; return; }
+      if (!depRaw) { $('eLib').textContent = 'Ingrese su número de departamento.'; return; }
       if (!/^\d{4}$/.test(cod)) { $('eLib').textContent = 'El código debe tener 4 dígitos.'; return; }
+      var dep = buscarUnidad(depRaw) || depRaw;
       ejecutarLiberar(eq, dep, cod, $('bLib'), $('eLib'));
     };
   }
