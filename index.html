@@ -201,6 +201,109 @@
       margin-top: 0.85rem; text-align: center; color: var(--text-secondary); font-size: 0.74rem;
     }
     .foot strong { color: color-mix(in srgb, var(--blue-400) 70%, #e2e8f0); font-weight: 600; }
+    /* Arturito cara — botón normas */
+    .btn-normas {
+      width: 100%; display: flex; align-items: center; gap: 0.85rem; text-align: left;
+      margin: 0 0 0.55rem; padding: 0.7rem 0.85rem; border-radius: 14px; cursor: pointer;
+      border: 1px solid color-mix(in srgb, #74bd20 45%, transparent);
+      background:
+        radial-gradient(120px 60px at 8% 30%, color-mix(in srgb, #74bd20 18%, transparent), transparent 70%),
+        color-mix(in srgb, #74bd20 8%, var(--card-color));
+      color: var(--text-main); font: inherit;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .btn-normas:hover { border-color: color-mix(in srgb, #74bd20 75%, transparent); }
+    .btn-normas:active { transform: scale(.985); }
+    .btn-normas:focus-visible { outline: 3px solid var(--blue-500); outline-offset: 2px; }
+    .artu-cara {
+      flex: 0 0 auto; width: 3.1rem; height: 3.1rem; display: grid; place-items: center; border-radius: 50%;
+      background: radial-gradient(circle at 50% 40%, rgba(143, 203, 26, 0.35), transparent 70%);
+      animation: miniFlota 1.6s ease-in-out infinite;
+    }
+    .artu-cara svg { width: 2.75rem; height: 2.75rem; overflow: visible; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.35)); }
+    .btn-normas-txt { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
+    .btn-normas-txt strong { font-size: 0.98rem; font-weight: 800; letter-spacing: -0.01em; color: #e8eef5; }
+    .btn-normas-txt em { font-style: normal; font-size: 0.78rem; color: #9fe04a; font-weight: 600; }
+    .btn-normas-txt span { font-size: 0.74rem; color: var(--text-secondary); line-height: 1.3; }
+    .normas-velo {
+      position: fixed; inset: 0; z-index: 11000; display: none; align-items: flex-end; justify-content: center;
+      padding: 0.75rem; background: rgba(0,0,0,.62); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    }
+    .normas-velo.open { display: flex; animation: miniOverlayIn 0.28s ease both; }
+    .normas-velo.is-out { animation: miniOverlayOut 0.28s ease forwards; }
+    .normas-panel {
+      width: min(640px, 100%); max-height: min(92vh, 920px); overflow: auto; overscroll-behavior: contain;
+      background: var(--card-color); border: 1px solid var(--gray-300); border-radius: 16px 16px 12px 12px;
+      box-shadow: 0 28px 64px rgba(0,0,0,0.65); padding: 1rem 1.05rem calc(1rem + env(safe-area-inset-bottom));
+      animation: normasSube 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @media (min-width: 640px) {
+      .normas-velo { align-items: center; }
+      .normas-panel { border-radius: 16px; }
+    }
+    @keyframes normasSube {
+      from { transform: translateY(28px) scale(0.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .normas-head {
+      display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.85rem;
+      padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);
+    }
+    .normas-head h2 { margin: 0; font-size: 1.05rem; line-height: 1.25; color: var(--text-main); }
+    .normas-head p { margin: 0.2rem 0 0; font-size: 0.8rem; color: #9fe04a; font-weight: 600; }
+    .normas-cerrar {
+      margin-left: auto; flex: 0 0 auto; width: 2.2rem; height: 2.2rem; border-radius: 999px;
+      border: 1px solid var(--gray-300); background: var(--gray-200); color: var(--gray-800);
+      font: inherit; font-size: 1.1rem; cursor: pointer; line-height: 1;
+    }
+    .normas-body { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+    .normas-body .n-block {
+      margin: 0 0 0.9rem; opacity: 0; transform: translateY(10px);
+      animation: normasIn 0.45s ease forwards;
+    }
+    .normas-body .n-block:nth-child(1) { animation-delay: 0.05s; }
+    .normas-body .n-block:nth-child(2) { animation-delay: 0.1s; }
+    .normas-body .n-block:nth-child(3) { animation-delay: 0.14s; }
+    .normas-body .n-block:nth-child(4) { animation-delay: 0.18s; }
+    .normas-body .n-block:nth-child(5) { animation-delay: 0.22s; }
+    .normas-body .n-block:nth-child(6) { animation-delay: 0.26s; }
+    .normas-body .n-block:nth-child(7) { animation-delay: 0.3s; }
+    .normas-body .n-block:nth-child(8) { animation-delay: 0.34s; }
+    .normas-body .n-block:nth-child(9) { animation-delay: 0.38s; }
+    .normas-body .n-block:nth-child(10) { animation-delay: 0.42s; }
+    .normas-body .n-block:nth-child(11) { animation-delay: 0.46s; }
+    .normas-body .n-block:nth-child(12) { animation-delay: 0.5s; }
+    .normas-body .n-block:nth-child(13) { animation-delay: 0.54s; }
+    .normas-body .n-block:nth-child(14) { animation-delay: 0.58s; }
+    .normas-body .n-block:nth-child(15) { animation-delay: 0.62s; }
+    .normas-body .n-block:nth-child(16) { animation-delay: 0.66s; }
+    @keyframes normasIn { to { opacity: 1; transform: translateY(0); } }
+    .normas-body h3 {
+      margin: 0 0 0.4rem; font-size: 0.92rem; font-weight: 800; color: var(--blue-400);
+      letter-spacing: 0.01em;
+    }
+    .normas-body p { margin: 0 0 0.45rem; }
+    .normas-body ul { margin: 0.2rem 0 0.55rem; padding-left: 1.1rem; }
+    .normas-body li { margin: 0.18rem 0; }
+    .normas-body .n-dot {
+      display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%;
+      margin-right: 0.35rem; vertical-align: 0.05rem;
+    }
+    .normas-body .n-dot.ok { background: #22c55e; }
+    .normas-body .n-dot.uso { background: #3b82f6; }
+    .normas-body .n-dot.off { background: #ef4444; }
+    .normas-body .n-nota {
+      margin: 0.45rem 0; padding: 0.55rem 0.7rem; border-radius: 10px;
+      background: color-mix(in srgb, #f59e0b 12%, var(--input-bg));
+      border: 1px solid color-mix(in srgb, #f59e0b 45%, transparent);
+      color: #fcd34d; font-size: 0.84rem; font-weight: 600;
+    }
+    .normas-body .n-cierre {
+      margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border-color);
+      text-align: center; color: #c5d0e0;
+    }
+    .normas-body .n-cierre strong { display: block; margin-top: 0.45rem; color: #9fe04a; }
     /* Arturito — aviso de límite (misma animación de carga de conserjería) */
     .modulo-carga {
       position: fixed; inset: 0; z-index: 12000; display: flex; align-items: center; justify-content: center;
@@ -280,8 +383,10 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .eq.en_uso .puerta i, .hoja, .modulo-carga, .modulo-carga.is-out,
-      .mini-carga::before, .mini-arturito, .mini-ojo, .mini-antena, .mini-ficha,
-      .carga-puntos i, .modulo-carga .carga-barra span { animation: none !important; }
+      .mini-carga::before, .mini-arturito, .mini-ojo, .mini-antena, .mini-ficha, .artu-cara,
+      .carga-puntos i, .modulo-carga .carga-barra span, .normas-velo, .normas-velo.is-out,
+      .normas-panel, .normas-body .n-block { animation: none !important; }
+      .normas-body .n-block { opacity: 1; transform: none; }
     }
   </style>
 </head>
@@ -302,6 +407,9 @@
 
 <div class="velo" id="velo" role="dialog" aria-modal="true" aria-labelledby="hojaTitulo">
   <div class="hoja" id="hoja"></div>
+</div>
+<div class="normas-velo" id="normasVelo" role="dialog" aria-modal="true" aria-labelledby="normasTitulo" hidden>
+  <div class="normas-panel" id="normasPanel"></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -409,10 +517,8 @@
     var enUso = equiposEnUsoUnidad(unidad).length;
     return { max: max, enUso: enUso, superado: !!(max && enUso >= max) };
   }
-  function arturitoHtml(titulo, sub, detalle) {
-    return '<div class="mini-carga" aria-hidden="true">' +
-      '<span class="mini-ficha"></span><span class="mini-ficha mini-ficha--2"></span><span class="mini-ficha mini-ficha--3"></span>' +
-      '<div class="mini-arturito"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">' +
+  function arturitoCaraSvg() {
+    return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
       '<line x1="32" y1="12" x2="32" y2="5" stroke="#5a8501" stroke-width="2.4"/>' +
       '<circle class="mini-antena" cx="32" cy="4.5" r="3.2" fill="#FFD700"/>' +
       '<rect x="10" y="14" width="44" height="42" rx="12" fill="#7FBA02"/>' +
@@ -420,12 +526,103 @@
       '<ellipse class="mini-ojo" cx="26" cy="31" rx="3.1" ry="3.1" fill="#7FBA02"/>' +
       '<ellipse class="mini-ojo" cx="38" cy="31" rx="3.1" ry="3.1" fill="#7FBA02"/>' +
       '<path d="M26 39 Q32 44 38 39" stroke="#7FBA02" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
-      '</svg></div></div>' +
+      '</svg>';
+  }
+  function arturitoHtml(titulo, sub, detalle) {
+    return '<div class="mini-carga" aria-hidden="true">' +
+      '<span class="mini-ficha"></span><span class="mini-ficha mini-ficha--2"></span><span class="mini-ficha mini-ficha--3"></span>' +
+      '<div class="mini-arturito">' + arturitoCaraSvg() + '</div></div>' +
       '<p class="carga-titulo">' + esc(titulo) + '<span class="carga-puntos" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></p>' +
       '<p class="carga-sub">' + esc(sub) + '</p>' +
       (detalle ? '<p class="carga-detalle">' + esc(detalle) + '</p>' : '') +
       '<div class="carga-barra" aria-hidden="true"><span></span></div>' +
       '<div class="carga-accion"><button type="button" class="btn btn-p" data-cerrar-limite>Entendido</button></div>';
+  }
+  function normasContenidoHtml() {
+    return '' +
+      '<div class="n-block"><p>Para mantener una lavandería ordenada, limpia y disponible para todos, hemos incorporado un sistema digital de control mediante nuestra aplicación de Control de Conserjería.</p>' +
+      '<p>A través de esta herramienta, los residentes podrán consultar la disponibilidad de los equipos, registrar su utilización, finalizar sus ciclos y reportar inconvenientes directamente desde sus teléfonos.</p></div>' +
+      '<div class="n-block"><h3>1. Registro digital obligatorio</h3>' +
+      '<p>Todo residente deberá registrar previamente el uso de la lavadora o secadora mediante el código QR instalado en la lavandería o el enlace habilitado.</p>' +
+      '<p>Desde el módulo podrá visualizar los 10 equipos disponibles:</p><ul><li>5 lavadoras.</li><li>5 secadoras.</li></ul>' +
+      '<p>Cada equipo tendrá un indicador de estado:</p><ul>' +
+      '<li><span class="n-dot ok" aria-hidden="true"></span>Verde: Disponible.</li>' +
+      '<li><span class="n-dot uso" aria-hidden="true"></span>Azul: En uso.</li>' +
+      '<li><span class="n-dot off" aria-hidden="true"></span>Rojo: Fuera de servicio.</li></ul>' +
+      '<p>Para registrar un equipo disponible, deberá seleccionarlo, ingresar el número de departamento y confirmar la operación. Una vez realizado el registro, el equipo cambiará automáticamente a estado «En uso» y quedará asociado a la unidad correspondiente.</p></div>' +
+      '<div class="n-block"><h3>2. Entrega y devolución de llave</h3>' +
+      '<p>El acceso físico a la lavandería continuará siendo controlado por conserjería. Una vez realizado el registro digital, el residente deberá solicitar la llave al personal de conserjería, quien podrá verificar la información correspondiente.</p>' +
+      '<p>Al finalizar su utilización, deberá devolver la llave en conserjería, sin excepción.</p></div>' +
+      '<div class="n-block"><h3>3. Retiro de basura y residuos</h3>' +
+      '<p>Cada usuario es responsable de mantener limpio el espacio utilizado. Al finalizar, deberá retirar la basura, pelusas y cualquier residuo que quede en las lavadoras, secadoras o superficies de trabajo.</p></div>' +
+      '<div class="n-block"><h3>4. Apagar las luces al retirarse</h3>' +
+      '<p>Antes de abandonar la lavandería, asegúrese de dejar todas las luces apagadas y el espacio en buenas condiciones.</p></div>' +
+      '<div class="n-block"><h3>5. Respetar los tiempos de utilización</h3>' +
+      '<p>Cada residente deberá estar atento a los tiempos de lavado y secado de sus prendas. La aplicación permite visualizar el tiempo estimado de funcionamiento de cada equipo, facilitando la organización y el retiro oportuno de las prendas.</p>' +
+      '<p>Es responsabilidad de cada usuario retirar sus pertenencias una vez finalizado el ciclo, evitando retrasos y molestias para otros residentes.</p></div>' +
+      '<div class="n-block"><h3>6. Avisos y seguimiento desde conserjería</h3>' +
+      '<p>El personal de conserjería podrá realizar seguimiento a los equipos mediante la aplicación de Control de Conserjería. Cuando corresponda, podrá contactar al residente a través del citófono para informarle que su ciclo ha finalizado y solicitar el retiro de sus prendas.</p></div>' +
+      '<div class="n-block"><h3>7. Retiro de prendas no retiradas</h3>' +
+      '<p>Si las prendas permanecen dentro de las lavadoras o secadoras una vez finalizado el tiempo de utilización, el personal de conserjería estará autorizado para retirarlas, con el propósito de permitir que otros residentes puedan utilizar los equipos.</p>' +
+      '<p>Esta medida busca evitar la ocupación innecesaria de las máquinas y garantizar un uso equitativo de este espacio común.</p></div>' +
+      '<div class="n-block"><h3>Funciones digitales disponibles</h3>' +
+      '<p>Además del protocolo de uso, la aplicación ofrece estas herramientas para los residentes.</p></div>' +
+      '<div class="n-block"><h3>8. Consulta de disponibilidad en tiempo real</h3>' +
+      '<p>Mediante el código QR o enlace de acceso, cada residente podrá consultar:</p><ul>' +
+      '<li>Lavadoras y secadoras disponibles.</li><li>Equipos actualmente en uso.</li><li>Equipos fuera de servicio.</li>' +
+      '<li>Cantidad de equipos disponibles en cada momento.</li><li>Tiempo estimado de finalización de los ciclos.</li></ul>' +
+      '<p>La información se actualizará automáticamente, sin necesidad de recargar la página.</p></div>' +
+      '<div class="n-block"><h3>9. Registro y confirmación de utilización</h3>' +
+      '<p>Al seleccionar un equipo disponible, el residente deberá ingresar su número de departamento y confirmar el registro. La aplicación verificará que la unidad exista, que se encuentre habilitada y que no haya superado el límite de equipos simultáneos permitido.</p>' +
+      '<p>Una vez confirmado: el equipo quedará asociado al departamento, su estado cambiará a azul, se generará un código personal de 4 dígitos y se enviará una confirmación al correo de la unidad.</p>' +
+      '<p class="n-nota">Importante: el código de 4 dígitos deberá conservarse, ya que será solicitado para liberar el equipo.</p></div>' +
+      '<div class="n-block"><h3>10. Finalización del uso y liberación del equipo</h3>' +
+      '<p>Una vez terminado el ciclo, el residente deberá seleccionar el equipo en el mapa e ingresar el número de departamento y el código de seguridad de 4 dígitos. Si los datos coinciden, el sistema finalizará el registro y dejará el equipo disponible.</p>' +
+      '<p>Por seguridad, no será posible liberar equipos registrados por otros departamentos.</p></div>' +
+      '<div class="n-block"><h3>11. Reporte de problemas o fallas</h3>' +
+      '<p>Si detecta un inconveniente, podrá reportarlo desde la aplicación indicando el equipo, el motivo y un detalle opcional. El reporte quedará en conserjería y se enviará un correo de respaldo a la unidad.</p>' +
+      '<p class="n-nota">Importante: el reporte no modifica automáticamente el estado del equipo. Declarar fuera de servicio es facultad exclusiva del personal autorizado.</p></div>' +
+      '<div class="n-block"><h3>12. Seguridad y control de utilización</h3>' +
+      '<ul><li>Cada registro deberá estar asociado a un departamento existente.</li>' +
+      '<li>Se respetará el límite de equipos simultáneos configurado para cada unidad.</li>' +
+      '<li>Las unidades no habilitadas deberán consultar en conserjería.</li>' +
+      '<li>No se permitirá registrar un equipo que ya esté en uso.</li>' +
+      '<li>La liberación requerirá departamento y código de seguridad.</li>' +
+      '<li>Los intentos reiterados con códigos incorrectos tendrán un bloqueo temporal.</li></ul></div>' +
+      '<div class="n-block n-cierre"><p>¡Gracias por colaborar!</p>' +
+      '<p>La incorporación de nuestro sistema digital busca facilitar el uso de la lavandería, mejorar el control de los equipos y entregar una gestión más eficiente y transparente para toda la comunidad.</p>' +
+      '<p>Invitamos a todos los residentes a utilizar correctamente esta herramienta y respetar las indicaciones establecidas.</p>' +
+      '<strong>WM815 · Una comunidad ordenada la construimos entre todos.</strong></div>';
+  }
+  function cerrarNormas() {
+    var velo = $('normasVelo');
+    if (!velo || velo.hidden) return;
+    velo.classList.add('is-out');
+    setTimeout(function () {
+      velo.classList.remove('open', 'is-out');
+      velo.hidden = true;
+      $('normasPanel').innerHTML = '';
+    }, 260);
+  }
+  function abrirNormas() {
+    cerrarHoja();
+    cerrarAvisoLimite();
+    var velo = $('normasVelo');
+    var panel = $('normasPanel');
+    panel.innerHTML =
+      '<div class="normas-head">' +
+      '<span class="artu-cara">' + arturitoCaraSvg() + '</span>' +
+      '<div><h2 id="normasTitulo">Protocolo de uso y acceso</h2><p>Lavandería · Edificio WM815</p></div>' +
+      '<button type="button" class="normas-cerrar" data-cerrar-normas aria-label="Cerrar">×</button></div>' +
+      '<div class="normas-body">' + normasContenidoHtml() + '</div>' +
+      '<div class="botones" style="margin-top:0.85rem"><button type="button" class="btn btn-p" data-cerrar-normas>Entendido</button></div>';
+    velo.hidden = false;
+    velo.classList.remove('is-out');
+    velo.classList.add('open');
+    setTimeout(function () {
+      var b = panel.querySelector('[data-cerrar-normas]');
+      if (b) b.focus();
+    }, 80);
   }
   function cerrarAvisoLimite() {
     var velo = document.querySelector('.modulo-carga');
@@ -670,6 +867,9 @@
       '<div class="chip ok"><b>' + c.disponible + '</b><span>Disponibles</span></div>' +
       '<div class="chip uso"><b>' + c.en_uso + '</b><span>En uso</span></div>' +
       '<div class="chip off"><b>' + c.fuera_servicio + '</b><span>Fuera de servicio</span></div></section>' +
+      '<button type="button" class="btn-normas" data-abrir-normas aria-label="Conoce las reglas de la lavandería">' +
+      '<span class="artu-cara">' + arturitoCaraSvg() + '</span>' +
+      '<span class="btn-normas-txt"><strong>Conoce las reglas de la lavandería</strong><em>Arturito te las explica</em><span>Protocolo de uso y acceso · WM815</span></span></button>' +
       '<section class="mios" style="display:' + (mios.length ? 'block' : 'none') + '"><h2><i class="fa-solid fa-user-check" aria-hidden="true"></i> Sus equipos en uso</h2>' +
       mios.map(function (e) {
         return '<div class="mios-row"><span><strong>' + esc(label(e)) + '</strong> · desde ' + hora(e.inicio) + '</span>' +
@@ -873,6 +1073,14 @@
       cerrarAvisoLimite();
       return;
     }
+    if (ev.target.closest('[data-cerrar-normas]') || ev.target === $('normasVelo')) {
+      cerrarNormas();
+      return;
+    }
+    if (ev.target.closest('[data-abrir-normas]')) {
+      abrirNormas();
+      return;
+    }
     if (ev.target.closest('[data-cerrar]') || ev.target === $('velo')) { cerrarHoja(); return; }
     if (!accesoValido()) return;
     var abrirRep = ev.target.closest('[data-abrir-reporte]');
@@ -894,6 +1102,7 @@
   document.addEventListener('keydown', function (ev) {
     if (ev.key !== 'Escape') return;
     if (document.querySelector('.modulo-carga')) cerrarAvisoLimite();
+    else if ($('normasVelo') && !$('normasVelo').hidden) cerrarNormas();
     else cerrarHoja();
   });
 
