@@ -49,45 +49,20 @@
       max-width: 980px; margin: 0 auto;
       padding: max(0.75rem, env(safe-area-inset-top)) clamp(0.65rem, 1.2vw, 1.35rem) calc(1.4rem + env(safe-area-inset-bottom));
     }
-    .topbar {
-      display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.75rem;
-      padding: 0.7rem 0.85rem; border-radius: var(--radius);
-      background: color-mix(in srgb, var(--card-color) 88%, #0b0d11);
-      border: 1px solid var(--border-color); box-shadow: var(--shadow);
+    .brand {
+      display: flex; justify-content: center; margin: 0.15rem 0 0.55rem;
     }
-    .brand-icon {
-      width: 56px; height: 56px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .brand-icon img {
-      width: 100%; height: 100%; object-fit: contain;
+    .brand img {
+      width: 64px; height: 64px; object-fit: contain;
       filter: brightness(0) invert(1);
     }
-    .brand-copy { min-width: 0; flex: 1; }
-    .brand-copy strong {
-      display: block; font-family: var(--sidebar-display); font-size: 1.05rem; font-weight: 700;
-      letter-spacing: -0.02em; color: #f8fafc; line-height: 1.2;
-    }
-    .brand-copy span {
-      display: block; margin-top: 0.15rem; font-size: 0.78rem; font-weight: 500;
-      color: color-mix(in srgb, var(--blue-400) 52%, #e2e8f0);
-    }
-    .live {
-      margin-left: auto; display: inline-flex; align-items: center; gap: 0.4rem;
-      font-family: var(--sidebar-font); font-size: 0.72rem; font-weight: 700;
-      color: var(--text-secondary); background: var(--gray-100); border: 1px solid var(--border-color);
-      padding: 0.35rem 0.7rem; border-radius: 999px; white-space: nowrap;
-    }
-    .live::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #64748b; }
-    .live.on::before { background: var(--success); box-shadow: 0 0 0 0 rgba(5,150,105,.55); animation: pulse 1.8s infinite; }
-    @keyframes pulse { 70% { box-shadow: 0 0 0 7px rgba(5,150,105,0); } 100% { box-shadow: 0 0 0 0 rgba(5,150,105,0); } }
-    .page-header { margin: 0.15rem 0 0.65rem; }
+    .page-header { margin: 0 0 0.65rem; text-align: center; }
     .page-header h1 {
-      margin: 0; display: flex; align-items: center; gap: 0.4rem;
+      margin: 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
       font-size: 1.28rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: var(--text-main);
     }
     .page-header h1 i { color: var(--blue-400); }
-    .page-desc { margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.86rem; line-height: 1.38; }
+    .page-desc { margin: 0.3rem 0 0; color: var(--text-secondary); font-size: 0.86rem; line-height: 1.38; }
     .resumen { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: stretch; margin-bottom: 0.55rem; }
     .chip {
       display: flex; flex-direction: column; min-width: 6.5rem; flex: 1;
@@ -127,10 +102,11 @@
       text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary);
     }
     h3.grupo:first-child { margin-top: 0.1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 0.6rem; margin-bottom: 0.35rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.8rem, 1fr)); gap: 0.65rem; margin-bottom: 0.35rem; align-items: stretch; }
     .eq {
       --c: var(--lav-ok); position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-      padding: 0.7rem; border-radius: 14px; background: color-mix(in srgb, var(--c) 9%, var(--card-color));
+      min-height: 100%; padding: 0.75rem 0.65rem 0.7rem; border-radius: 14px;
+      background: color-mix(in srgb, var(--c) 9%, var(--card-color));
       border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); box-shadow: 0 6px 18px rgba(0,0,0,0.25);
       color: var(--text-main); font: inherit; cursor: pointer; text-align: center;
       transition: transform .12s ease, box-shadow .12s ease;
@@ -139,8 +115,16 @@
     .eq:focus-visible { outline: 3px solid var(--blue-500); outline-offset: 2px; }
     .eq.en_uso { --c: var(--lav-uso); }
     .eq.fuera_servicio { --c: var(--lav-off); cursor: not-allowed; }
-    .eq .nom { font-weight: 700; font-size: 0.95rem; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; }
-    .eq .pill { font-size: 0.66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; padding: 0.18rem 0.5rem; border-radius: 999px; background: var(--c); color: #fff; white-space: nowrap; }
+    .eq .nom {
+      width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+      font-weight: 700; font-size: 0.95rem; line-height: 1.2;
+    }
+    .eq .nom > span:first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .eq .pill {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 1.3rem;
+      font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: .03em;
+      padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--c); color: #fff; white-space: nowrap;
+    }
     .maq { position: relative; width: 4.6rem; height: 5.2rem; margin: 0.1rem auto; border-radius: 10px; background: linear-gradient(180deg, #e8eef5, #c5d0e0); box-shadow: inset 0 -4px 0 rgba(0,0,0,.12); }
     .maq::before { content: ''; position: absolute; left: 0.45rem; top: 0.42rem; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); }
     .maq::after { content: ''; position: absolute; right: 0.45rem; top: 0.45rem; width: 1.3rem; height: 0.3rem; border-radius: 99px; background: #94a3b8; }
@@ -149,9 +133,12 @@
     .eq.en_uso .puerta i { animation: giro 1.6s linear infinite; }
     .eq.fuera_servicio .puerta { background: #3f1d1d; color: #fca5a5; }
     @keyframes giro { to { transform: rotate(360deg); } }
-    .eq .det { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.35; min-height: 2.2em; }
+    .eq .det {
+      min-height: 2.6em; display: flex; flex-direction: column; justify-content: flex-start; gap: 0.1rem;
+      font-size: 0.8rem; color: var(--text-secondary); line-height: 1.35;
+    }
     .eq .det b { color: var(--text-main); font-size: 1.05rem; }
-    .eq .cta { font-size: 0.8rem; font-weight: 700; color: var(--c); }
+    .eq .cta { margin-top: auto; font-size: 0.8rem; font-weight: 700; color: var(--c); min-height: 1.2em; }
     .eq.en_uso .cta { color: #93c5fd; }
     .eq .mio { position: absolute; top: 0.45rem; right: 0.45rem; font-size: 0.62rem; font-weight: 800; background: var(--blue-500); color: var(--on-accent); padding: 0.12rem 0.4rem; border-radius: 6px; }
     .nota { text-align: center; color: var(--text-secondary); font-size: 0.76rem; margin: 0.65rem 0 0; }
@@ -205,26 +192,22 @@
     }
     .foot strong { color: color-mix(in srgb, var(--blue-400) 70%, #e2e8f0); font-weight: 600; }
     @media (max-width: 420px) {
-      .brand-icon { width: 48px; height: 48px; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
+      .brand img { width: 52px; height: 52px; }
+      .page-header h1 { font-size: 1.15rem; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
       .maq { width: 3.9rem; height: 4.5rem; }
       .puerta { width: 2.8rem; height: 2.8rem; margin-left: -1.4rem; top: 1.2rem; }
+      .card-h { flex-direction: column; align-items: flex-start; }
+      .legend { gap: 0.55rem; font-size: 0.74rem; }
     }
-    @media (prefers-reduced-motion: reduce) { .eq.en_uso .puerta i, .live.on::before, .hoja { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .eq.en_uso .puerta i, .hoja { animation: none; } }
   </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="topbar">
-    <div class="brand-icon" aria-hidden="true">
-      <img src="https://img.mailinblue.com/8323725/images/content_library/original/6844749040dd0f16c5341248.png" alt="" width="56" height="56" decoding="async">
-    </div>
-    <div class="brand-copy">
-      <strong>Conserjería</strong>
-      <span>Panel residencial</span>
-    </div>
-    <span class="live" id="live">Conectando…</span>
-  </header>
+  <div class="brand" aria-hidden="true">
+    <img src="https://img.mailinblue.com/8323725/images/content_library/original/6844749040dd0f16c5341248.png" alt="" width="64" height="64" decoding="async">
+  </div>
   <div class="page-header">
     <h1><i class="fa-solid fa-soap" aria-hidden="true"></i> Control de lavandería</h1>
     <p class="page-desc" id="edificio">Disponibilidad en tiempo real</p>
@@ -440,18 +423,19 @@
       cta = mio ? 'Toque para finalizar' : '¿Es suyo? Finalizar';
     } else if (estado === 'fuera_servicio') {
       det = 'No habilitado para su uso';
-      cta = '';
+      cta = '&nbsp;';
     } else {
       det = 'Libre para usar';
       cta = 'Toque para registrar';
     }
+    var pillTxt = estado === 'fuera_servicio' ? 'Sin servicio' : ESTADO_TXT[estado];
     return '<button type="button" class="eq ' + estado + '" data-eq="' + esc(eq.id) + '"' + (estado === 'fuera_servicio' ? ' aria-disabled="true"' : '') +
       ' aria-label="' + esc(label(eq) + ', ' + ESTADO_TXT[estado] + (estado === 'en_uso' ? ', departamento ' + eq.unidad : '')) + '">' +
       (mio ? '<span class="mio">SUYO</span>' : '') +
-      '<span class="nom"><span>' + esc(label(eq)) + '</span><span class="pill">' + ESTADO_TXT[estado] + '</span></span>' +
+      '<span class="nom"><span>' + esc(label(eq)) + '</span><span class="pill">' + pillTxt + '</span></span>' +
       '<span class="maq"><span class="puerta"><i class="fa-solid ' + (estado === 'fuera_servicio' ? 'fa-triangle-exclamation' : TIPOS[eq.tipo].icon) + '" aria-hidden="true"></i></span></span>' +
       '<span class="det">' + det + '</span>' +
-      (cta ? '<span class="cta">' + cta + '</span>' : '') +
+      '<span class="cta">' + cta + '</span>' +
       '</button>';
   }
   function render() {
@@ -606,15 +590,9 @@
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') cerrarHoja(); });
 
   /* ---------- Tiempo real ---------- */
-  function estadoConexion(enVivo) {
-    var l = $('live');
-    l.classList.toggle('on', !!enVivo);
-    l.textContent = enVivo ? 'En vivo' : 'Sin conexión';
-  }
   if (!token) {
     st.cargado.cfg = st.cargado.eq = true;
     pantalla('fa-qrcode', 'Enlace no válido', 'Escanee el código QR instalado en la lavandería o solicite el enlace en conserjería.');
-    estadoConexion(false);
     return;
   }
   db.collection(COL_CFG).doc('config').onSnapshot(function (s) {
@@ -630,13 +608,10 @@
     qs.forEach(function (d) { eqs[d.id] = Object.assign({ id: d.id }, d.data()); });
     st.equipos = eqs;
     st.cargado.eq = true;
-    estadoConexion(!qs.metadata.fromCache);
     render();
   }, function (e) {
     console.warn('[lavandería] equipos', e);
-    estadoConexion(false);
   });
-  window.addEventListener('offline', function () { estadoConexion(false); });
   setInterval(render, 30000);
 })();
 </script>
